@@ -140,6 +140,12 @@ namespace LWEvent
                 case LWKeyType.DECRESCENDO:
                     eventData.key = new Decrescendo();
                     break;
+                case LWKeyType.ARROW_LEFT:
+                    eventData.key = new ArrowLeft();
+                    break;
+                case LWKeyType.ARROW_RIGHT:
+                    eventData.key = new ArrowRight();
+                    break;
             }
 
             return eventData;

@@ -143,6 +143,8 @@ namespace MoodKeyboardContext
                 Dynamic d = map[LWKeyType.DYNAMIC] as Dynamic;
                 currentDynamic.dynamicValue = d.dynamicValue;
             }
+
+            RedrawKeyboard();
         }
 
         public void GetHighlightedNotes(List<Note> list)
@@ -344,6 +346,12 @@ namespace MoodKeyboardContext
                         break;
                     case AdaptiveKey.Space:
                         SetKeyContentAndColor(key, "Next", normal, "", false);
+                        break;
+                    case AdaptiveKey.Left:
+                        SetKeyContentAndColor(key, "", normal, "Images/ArrowLeft.png", false);
+                        break;
+                    case AdaptiveKey.Right:
+                        SetKeyContentAndColor(key, "", normal, "Images/ArrowRight.png", false);
                         break;
                     default:
                         SetKeyContentAndColor(key, "", off, "", false);
@@ -552,6 +560,14 @@ namespace MoodKeyboardContext
                     case KeyTranslator.DECRESCENDO_KEY:
                         eventKey = new Decrescendo();
                         type = LWKeyType.DECRESCENDO;
+                        break;
+                    case AdaptiveKey.Left:
+                        eventKey = new ArrowLeft();
+                        type = LWKeyType.ARROW_LEFT;
+                        break;
+                    case AdaptiveKey.Right:
+                        eventKey = new ArrowRight();
+                        type = LWKeyType.ARROW_RIGHT;
                         break;
                     default:
                         switch (mode)

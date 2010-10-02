@@ -176,4 +176,8 @@ namespace LWEvent
 
     public class Decrescendo : LWKey { } ;
 
+    public class ArrowLeft : LWKey { } ;
+
+    public class ArrowRight : LWKey { } ;
+
 }
