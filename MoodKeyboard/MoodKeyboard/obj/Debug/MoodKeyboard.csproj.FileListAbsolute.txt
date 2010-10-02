@@ -1,0 +1,15 @@
+C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboard\bin\Debug\MoodKeyboard.exe
+C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboard\bin\Debug\MoodKeyboard.pdb
+C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboard\bin\Debug\Adaptive.Interop.dll
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\Debug\MoodKeyboard.exe
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\Debug\MoodKeyboard.pdb
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\Window1.baml
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\Window1.g.cs
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\App.g.cs
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\MoodKeyboard_MarkupCompile.cache
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\MoodKeyboard.g.resources
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\MoodKeyboard.Properties.Resources.resources
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\MoodKeyboard.csproj.GenerateResource.Cache
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\MoodKeyboard.exe
+C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboard\obj\Debug\MoodKeyboard.pdb

@@ -1,0 +1,211 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B0B6D259-B675-4B18-A28C-3C26DE569DDE}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MoodKeyboardContext</RootNamespace>
+    <AssemblyName>MoodKeyboardContext</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>MoodKeyboardContext.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>MoodKeyboardContext.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Adaptive.ControlsLibrary, Version=0.2.233.0, Culture=neutral, PublicKeyToken=fc8c1bc21e7f51bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft Adaptive\Adaptive.ControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Adaptive.Interfaces, Version=0.2.233.0, Culture=neutral, PublicKeyToken=fc8c1bc21e7f51bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft Adaptive\Adaptive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KeyTranslator.cs" />
+    <Compile Include="LWDrawer.cs" />
+    <Compile Include="LWEvent.cs" />
+    <Compile Include="KeyboardContent.xaml.cs">
+      <DependentUpon>KeyboardContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </ApplicationDefinition>
+    <Page Include="KeyboardContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ArrowDown.png" />
+    <Resource Include="Images\ArrowLeft.png" />
+    <Resource Include="Images\ArrowRight.png" />
+    <Resource Include="Images\ArrowUp.png" />
+    <Resource Include="Images\Backspace.png" />
+    <Resource Include="Images\CapsLock.png" />
+    <Resource Include="Images\Enter.png" />
+    <Resource Include="Images\RightClickMenu.png" />
+    <Resource Include="Images\ShiftArrow.png" />
+    <Resource Include="Images\StartButton_default.png" />
+    <Resource Include="Images\StartButton_pressed.png" />
+    <Resource Include="Images\Tab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\touch_spectrum.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ottava.png" />
+    <Resource Include="Images\rest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rests\half-rest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rests\eighth-rest.png" />
+    <Resource Include="Images\Rests\quarter-rest.png" />
+    <Resource Include="Images\Rests\sixteenth-rest.png" />
+    <Resource Include="Images\Rests\thirtysecond-rest.png" />
+    <Resource Include="Images\Rests\whole-rest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Notes\eighth-note.png" />
+    <Resource Include="Images\Notes\half-note.png" />
+    <Resource Include="Images\Notes\quarter-note.png" />
+    <Resource Include="Images\Notes\sixteenth-note.png" />
+    <Resource Include="Images\Notes\thirtysecond-note.png" />
+    <Resource Include="Images\Notes\whole-note.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Times\12-8.png" />
+    <Resource Include="Images\Times\2-4.png" />
+    <Resource Include="Images\Times\3-2.png" />
+    <Resource Include="Images\Times\3-4.png" />
+    <Resource Include="Images\Times\3-8.png" />
+    <Resource Include="Images\Times\5-4.png" />
+    <Resource Include="Images\Times\5-8.png" />
+    <Resource Include="Images\Times\6-8.png" />
+    <Resource Include="Images\Times\7-8.png" />
+    <Resource Include="Images\Times\9-8.png" />
+    <Resource Include="Images\Times\c.png" />
+    <Resource Include="Images\Times\cut-time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Clefs\alto.png" />
+    <Resource Include="Images\Clefs\bass.png" />
+    <Resource Include="Images\Clefs\percussion.png" />
+    <Resource Include="Images\Clefs\tablature.png" />
+    <Resource Include="Images\Clefs\treble.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clef.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Dynamics\f.png" />
+    <Resource Include="Images\Dynamics\ff.png" />
+    <Resource Include="Images\Dynamics\fff.png" />
+    <Resource Include="Images\Dynamics\mf.png" />
+    <Resource Include="Images\Dynamics\mp.png" />
+    <Resource Include="Images\Dynamics\p.png" />
+    <Resource Include="Images\Dynamics\pp.png" />
+    <Resource Include="Images\Dynamics\ppp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dynamic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\volumeDown.png" />
+    <Resource Include="Images\volumeUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\crescendo.png" />
+    <Resource Include="Images\decrescendo.png" />
+    <Resource Include="Images\slur.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
