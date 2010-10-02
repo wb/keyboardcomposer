@@ -50,7 +50,7 @@ namespace MoodKeyboardContext
         {
             if (context != null)
             {
-                if (e.messageID == (int)LWMessageID.FROM_APPLICATION)
+                if (e.messageID == (int)LWMessageID.HIGHLIGHT_KEYS)
                 {
                     LWKeyMap list = LWKeyMap.Deserialize(e.messageData);
                 }
