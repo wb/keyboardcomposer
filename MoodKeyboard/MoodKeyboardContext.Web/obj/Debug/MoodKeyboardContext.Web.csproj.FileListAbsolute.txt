@@ -3,3 +3,8 @@ C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard
 C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboardContext.Web\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboardContext.Web\obj\Debug\MoodKeyboardContext.Web.dll
 C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboardContext.Web\obj\Debug\MoodKeyboardContext.Web.pdb
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext.Web\bin\MoodKeyboardContext.Web.dll
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext.Web\bin\MoodKeyboardContext.Web.pdb
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext.Web\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext.Web\obj\Debug\MoodKeyboardContext.Web.dll
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext.Web\obj\Debug\MoodKeyboardContext.Web.pdb
