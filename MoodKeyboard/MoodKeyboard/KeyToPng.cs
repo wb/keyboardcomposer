@@ -18,26 +18,30 @@ namespace MoodKeyboard
             score = new LPScore();
         }
 
-        public void HandleKey(LWEventData eventData)
+        public bool HandleKey(LWEventData eventData)
         {
              
             /* add event data */
-            score.addEventData(eventData);
+            bool updateImage =  score.addEventData(eventData);
 
-            /* print the lilypond file */
-            Console.WriteLine("===============================================");
-            Console.WriteLine();
-            Console.WriteLine(score.LPSymbol());
-            Console.WriteLine();
-            Console.WriteLine("===============================================");
+            if (updateImage)
+            {
+                this.UpdateImage();
+            }
 
+            return updateImage;
+
+        }
+
+        private void UpdateImage()
+        {
             /* create the png */
             TextWriter tw = new StreamWriter("in.ly");
             tw.Write(score.LPSymbol());
             tw.Flush();
             tw.Close();
             //ExecuteCommand("lilypond -fpng -o ../MoodKeyboardContext/Images/out in.ly", 5000);
-            
+
             ExecuteCommand("lilypond -fpng -o C:/Users/Walter/Desktop/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
             Console.WriteLine("lilypond -fpng -o C:/Users/Walter/Desktop/tmp/out" + (imageVersion + 1) + " in.ly");
             /* send updates back to keyboard */
@@ -45,8 +49,6 @@ namespace MoodKeyboard
             /* and don't forget the image :) */
 
             imageVersion++;
-
-
         }
 
         public static int ExecuteCommand(string Command, int Timeout)
@@ -141,10 +143,18 @@ namespace MoodKeyboard
 
         }
 
-        public void addEventData(LWEventData eventData)
+        public bool addEventData(LWEventData eventData)
         {
+            bool updateImage = false;
+
             if (eventData.eventType == LWKeyType.SPACE)
             {
+                /* if the current slice is empty, ignore the space */
+                if (currentSlice().isEmpty())
+                {
+                    Console.WriteLine("Ignoring space because current slice is empty.");
+                    return false; /* and of course, don't update image */
+                }
                
                 if (position + 1 >= score.Count)
                 {
@@ -152,6 +162,8 @@ namespace MoodKeyboard
                 }
 
                 position++;
+
+                updateImage = true;
             }
 
             if (position >= 0 && position < score.Count)
@@ -162,6 +174,13 @@ namespace MoodKeyboard
             {
                 Console.WriteLine("Error: score position is invalid.");
             }
+
+            return updateImage;
+        }
+
+        private LPSlice currentSlice()
+        {
+            return score.ElementAt(position);
         }
 
         public byte[] currentSliceCereal()
@@ -180,6 +199,11 @@ namespace MoodKeyboard
         public LPSlice()
         {
             notes = new List<LPNote>();
+        }
+
+        public bool isEmpty()
+        {
+            return (notes.Count == 0 && rest == null);
         }
 
         public String LPSymbol()
