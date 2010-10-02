@@ -53,7 +53,7 @@ namespace MoodKeyboardContext
             {
                 if (e.messageID == (int)LWMessageID.FROM_APPLICATION)
                 {
-                    LWEventDataList list = LWEventDataList.Deserialize(e.messageData);
+                    LWKeyMap list = LWKeyMap.Deserialize(e.messageData);
                 }
             }
         }
