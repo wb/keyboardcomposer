@@ -63,6 +63,9 @@ namespace MoodKeyboard
         /* store defaults */
         public static int defaultDuration = 1;
 
+        /* store (de)crescendo toggle state */
+        public static LPCrescendo crescendoState = LPCrescendo.none;
+
         public LPScore()
         {
             score = new List<LPSlice>();
@@ -149,6 +152,7 @@ namespace MoodKeyboard
         private List<LPNote> notes;
         private LPRest rest;
         private LPDynamic dynamic;
+        private LPCrescendo crescendo = LPCrescendo.none;
 
         public LPSlice()
         {
@@ -276,9 +280,54 @@ namespace MoodKeyboard
                         dynamic = lpD;
                     }
                     return true;
+                case LWKeyType.CRESCENDO:
+                    /* if there is currently no (de)crescendo going on, life is easy */
+                    if (LPScore.crescendoState == LPCrescendo.none)
+                    {
+                        this.crescendo = LPCrescendo.crescendoOpen;
+                        LPScore.crescendoState = LPCrescendo.crescendoEnabled;
+                    }
+                    else if (LPScore.crescendoState == LPCrescendo.crescendoEnabled)
+                    {
+                        this.crescendo = LPCrescendo.crescendoClose;
+                        LPScore.crescendoState = LPCrescendo.none;
+                    }
+                    else if (LPScore.crescendoState == LPCrescendo.decrescendoEnabled)
+                    {
+
+                    }
+                    return true;
+                case LWKeyType.DECRESCENDO:
+
+                    return true;
                 default:
                     return false;
             }
+        }
+
+        public byte[] Serialize()
+        {
+            LWKeyMap map = new LWKeyMap();
+
+            /* add duration! */
+            if (this.notes != null && this.rest != null)
+                map.Add(LWKeyType.INVERSE_DURATION, new InverseDuration(LPScore.defaultDuration));
+
+            /* if there are notes, add them all! */
+            if (this.notes != null)
+            {
+                foreach (LPNote n in this.notes)
+                {
+                    map.Add(LWKeyType.NOTE, new Note(n.value, n.octave));
+                }
+            }
+            /* or add a rest yo */
+            else if (this.rest != null)
+            {
+                map.Add(LWKeyType.REST, new Rest());
+            }
+
+            return map.Serialize();
         }
     }
     class LPNote : LPObject
@@ -431,5 +480,9 @@ namespace MoodKeyboard
                 return (this.dynamic == d.dynamic);
             }
         }
+    }
+    enum LPCrescendo
+    {
+        crescendoOpen, crescendoClose, decrescendoOpen, decrescendoClose, none, crescendoEnabled, decrescendoEnabled
     }
 }
