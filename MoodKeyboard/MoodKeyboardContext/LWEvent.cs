@@ -74,7 +74,8 @@ namespace LWEvent
     {
         FROM_KEYBOARD,
         FROM_TOUCHPAD,
-        FROM_APPLICATION
+        HIGHLIGHT_KEYS,
+        CHANGE_PICTURE
     };
 
 };
