@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace LWEvent
 {
-
     public class LWEventData
     {
         public LWKey key;

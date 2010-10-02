@@ -1,8 +1,50 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace LWEvent
 {
+    public class LWEventDataList : List<LWEventData>
+    {
+        public const String DELIMITER = "###";
+        public LWEventDataList()
+        {
+        }
+         
+        public String Serialize()
+        {
+            String s = "";
+
+            for (int i = 0; i < this.Count; i ++ )
+            {
+                s = s + this[i].Serialize();
+
+                if (i < this.Count - 1)
+                {
+                    s = s + DELIMITER;
+                }
+            }
+
+            return s;
+        }
+
+        public static LWEventDataList Deserialize(String s)
+        {
+            LWEventDataList list = new LWEventDataList();
+
+            String[] delimiters = new String[1];
+            delimiters[0] = DELIMITER;
+            String[] items = s.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                LWEventData eventData = LWEventData.Deserialize(items[i]);
+                list.Add(eventData);
+            }
+
+            return list;
+        }
+    }
 
     public abstract class LWKey
     {
@@ -61,72 +103,6 @@ namespace LWEvent
         {
             String s = String.Format("{0:G},{1:G}", (int)value, octave);
             return s;
-        }
-
-        /*
-         * This method is used to convert this note into the symbol used in Lilypond. 
-         **/
-        public String GetLilyPondSymbol()
-        {
-            // which note?
-            String symbol = Note.NoteValueToString(this.value);
-
-            // now, get the octave symbol (3 has no modifiers, 4+ has a ', and 2- has a ,)
-            if (this.octave >= 4)
-            {
-                for (int i = 4; i <= this.octave; i++)
-                {
-                    symbol += "'";
-                }
-            }
-            else if (this.octave <= 2)
-            {
-                for (int i = 2; i >= this.octave; i--)
-                {
-                    symbol += ",";
-                }
-            }
-
-            // add duration
-            symbol += this.duration;
-
-            return symbol;
-        }
-
-        /*
-         * This method is used to convert a NoteValue into a string.
-         * */
-        private static String NoteValueToString(NoteValue value)
-        {
-            switch (value)
-            {
-                case NoteValue.A:
-                    return "a";
-                case NoteValue.A_SHARP:
-                    return "ais";
-                case NoteValue.B:
-                    return "b";
-                case NoteValue.C:
-                    return "c";
-                case NoteValue.C_SHARP:
-                    return "cis";
-                case NoteValue.D:
-                    return "d";
-                case NoteValue.D_SHARP:
-                    return "dis";
-                case NoteValue.E:
-                    return "e";
-                case NoteValue.F:
-                    return "f";
-                case NoteValue.F_SHARP:
-                    return "fis";
-                case NoteValue.G:
-                    return "g";
-                case NoteValue.G_SHARP:
-                    return "gis";
-                default:
-                    return "error";
-            }
         }
     };
 
