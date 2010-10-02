@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoodKeyboard", "MoodKeyboard\MoodKeyboard.csproj", "{E5D671C7-DE1A-4CAC-80AF-BEA58247B889}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoodKeyboardContext", "MoodKeyboardContext\MoodKeyboardContext.csproj", "{B0B6D259-B675-4B18-A28C-3C26DE569DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoodKeyboardContext.Web", "MoodKeyboardContext.Web\MoodKeyboardContext.Web.csproj", "{FC97667C-7531-42FE-9AB6-CE4D6B06583A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5D671C7-DE1A-4CAC-80AF-BEA58247B889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5D671C7-DE1A-4CAC-80AF-BEA58247B889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5D671C7-DE1A-4CAC-80AF-BEA58247B889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5D671C7-DE1A-4CAC-80AF-BEA58247B889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0B6D259-B675-4B18-A28C-3C26DE569DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0B6D259-B675-4B18-A28C-3C26DE569DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0B6D259-B675-4B18-A28C-3C26DE569DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0B6D259-B675-4B18-A28C-3C26DE569DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC97667C-7531-42FE-9AB6-CE4D6B06583A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC97667C-7531-42FE-9AB6-CE4D6B06583A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC97667C-7531-42FE-9AB6-CE4D6B06583A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC97667C-7531-42FE-9AB6-CE4D6B06583A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
