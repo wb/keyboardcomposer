@@ -44,6 +44,9 @@ namespace MoodKeyboardContext
 
         public KeyTranslator(Keyboard keyboard)
         {
+            if (keyboard == null)
+                MessageBox.Show("Don't pass the key translator a null keyboard please!");
+
             this.keyboard = keyboard;
 
             keysToNotes = new Dictionary<AdaptiveKey, Note>();

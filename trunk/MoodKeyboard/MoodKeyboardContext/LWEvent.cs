@@ -57,6 +57,8 @@ namespace LWEvent
         SLUR,
         CRESCENDO,
         DECRESCENDO,
+        ARROW_LEFT,
+        ARROW_RIGHT,
         NOT_IMPLEMENTED
     };
 
