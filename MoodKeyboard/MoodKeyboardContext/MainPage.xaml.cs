@@ -9,6 +9,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Adaptive.Interfaces;
 
+using LWEvent;
+using System.Text;
+using System.IO;
+
 namespace MoodKeyboardContext
 {
     [AdaptiveTouchRegion()]
@@ -78,37 +82,18 @@ namespace MoodKeyboardContext
 
             bmDst.Invalidate();
         }
-
-        void SetColor(double x, double y)
-        {
-            if (this.bmDst == null)
-            {
-                this.bmDst = new WriteableBitmap(bmi);
-            }
-
-
-            int index = (int)y * this.bmDst.PixelWidth + (int)x;
-
-            int pixel = this.bmDst.Pixels[index];
-            byte B = (byte)(pixel & 0xFF); pixel >>= 8;
-            byte G = (byte)(pixel & 0xFF); pixel >>= 8;
-            byte R = (byte)(pixel & 0xFF); pixel >>= 8;
-            byte A = (byte)(pixel);
-
-            Color c = Color.FromArgb(A, R, G, B);
-
-            //KeyboardContent.AnimateToColor(c);
-            KeyboardContent.AnimateToColor(c);
-        }
         
         void MainPage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             touching = false;
             Point p = e.GetPosition(null);
-
             ResetDst((int)(oldTouchPoint.X - p.X));
 
-            //this.SetColor(p.X, p.Y);
+            LWTouchPoint tp = new LWTouchPoint(p.X, p.Y);
+            Encoding encoder = Encoding.UTF8;
+            byte[] data = encoder.GetBytes(tp.Serialize());
+
+            context.SendMessage((int) LWMessageID.FROM_TOUCHPAD, data);
         }
 
         void MainPage_MouseMove(object sender, MouseEventArgs e)
@@ -140,16 +125,15 @@ namespace MoodKeyboardContext
         }
 
 
-        private void paintRed()
-        {
-            this.LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255,255,0,0));
-            //KeyboardContent.paintRed();
-            KeyboardContent.AnimateKeys();
-        }
-
-
         public void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
+            if (e.messageID == (int) LWMessageID.FROM_APPLICATION)
+            {
+                MemoryStream ms = new MemoryStream(e.messageData);
+                BitmapImage im = new BitmapImage();
+                im.SetSource(ms);
+                this.spectrum.Source = im;
+            }
             if (this.context != null)
             {
                 return;
