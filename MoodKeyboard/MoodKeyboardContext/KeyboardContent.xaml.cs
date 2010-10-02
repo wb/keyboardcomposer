@@ -25,7 +25,6 @@ namespace MoodKeyboardContext
     public partial class KeyboardContent : UserControl, IAdaptiveContentProvider
     {
         private Storyboard bgStory = new Storyboard();
-        private bool animationReady = false;
         static KeyboardContent sKeyboardContent;
         private KeyboardHandler keyboardHandler;
         private IAdaptiveContextMessaging context = null;

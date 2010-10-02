@@ -40,7 +40,7 @@ namespace MoodKeyboardContext
             this.MouseLeftButtonUp += new MouseButtonEventHandler(MainPage_MouseLeftButtonUp);
 
             // spectrum.Height, (int)spectrum.Width
-            bmi = new BitmapImage(new Uri("C:/Users/Walter/Pictures/samplemusic.png", UriKind.Absolute));
+            bmi = new BitmapImage(new Uri("Images/samplemusic.png", UriKind.Relative));
             bmi.ImageOpened += new EventHandler<RoutedEventArgs>(bmi_ImageOpened);
 
             this.spectrum.Source = bmi;

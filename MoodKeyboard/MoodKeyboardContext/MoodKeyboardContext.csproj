@@ -53,11 +53,11 @@
   <ItemGroup>
     <Reference Include="Adaptive.ControlsLibrary, Version=0.2.233.0, Culture=neutral, PublicKeyToken=fc8c1bc21e7f51bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft Adaptive\Adaptive.ControlsLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Microsoft Adaptive\Adaptive.ControlsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Adaptive.Interfaces, Version=0.2.233.0, Culture=neutral, PublicKeyToken=fc8c1bc21e7f51bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft Adaptive\Adaptive.Interfaces.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Microsoft Adaptive\Adaptive.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217" />
     <Reference Include="System.Runtime.Serialization" />
@@ -195,6 +195,12 @@
     <Resource Include="Images\crescendo.png" />
     <Resource Include="Images\decrescendo.png" />
     <Resource Include="Images\slur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chrysanthemum.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\samplemusic.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
