@@ -65,16 +65,13 @@ namespace LWEvent
             this.eventType = et;
         }
 
-        public byte[] Serialize()
+        public String Serialize()
         {
             String s = "";
             s = s + String.Format("{0:G};", (int)eventType);
             s = s + key.Serialize();
 
-            Encoding encoder = Encoding.UTF8;
-            byte[] data = encoder.GetBytes(s);
-
-            return data;
+            return s;
         }
 
         public static LWEventData Deserialize(byte[] data)
