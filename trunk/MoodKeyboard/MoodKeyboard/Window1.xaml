@@ -6,6 +6,6 @@
         <Image Name="Img_Score" 
                Source="C:\Users\Laura\Documents\Visual Studio 2008\Projects\MoodKeyboard\MoodKeyboard\MoodKeyboardContext\Images\samplemusic.png" 
                Width="500" Height="650" HorizontalAlignment="Center" VerticalAlignment="Top" ImageFailed="Img_Score_ImageFailed"></Image>
-        <Button Height="23" Width="80" Margin="99,0,104,12" Name="goButton" VerticalAlignment="Bottom" Click="goButton_Click">Refresh</Button>
+        <Button IsTabStop="False" Height="23" Width="80" Margin="99,0,104,12" Name="goButton" VerticalAlignment="Bottom" Click="goButton_Click">Refresh</Button>
     </Grid>
 </Window>
