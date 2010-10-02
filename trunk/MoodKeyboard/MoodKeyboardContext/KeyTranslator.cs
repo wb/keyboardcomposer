@@ -30,17 +30,12 @@ namespace MoodKeyboardContext
         public const AdaptiveKey CRESCENDO_KEY = AdaptiveKey.F10;
         public const AdaptiveKey DECRESCENDO_KEY = AdaptiveKey.F11;
 
-        private Dictionary<AdaptiveKey, Note> keysToNotes;
-        private Dictionary<AdaptiveKey, ClefSpecific> clefs;
-        private Dictionary<AdaptiveKey, Dots> dots;
-        private Dictionary<AdaptiveKey, InverseDuration> durations;
-        private Dictionary<AdaptiveKey, TimeSignatureSpecific> timeSignatures;
+        private Dictionary<AdaptiveKey, Note> keysToNotes = new Dictionary<AdaptiveKey,Note>();
+        private Dictionary<AdaptiveKey, ClefSpecific> clefs = new Dictionary<AdaptiveKey,ClefSpecific>();
+        private Dictionary<AdaptiveKey, Dots> dots = new Dictionary<AdaptiveKey,Dots>();
+        private Dictionary<AdaptiveKey, InverseDuration> durations = new Dictionary<AdaptiveKey,InverseDuration>();
+        private Dictionary<AdaptiveKey, TimeSignatureSpecific> timeSignatures = new Dictionary<AdaptiveKey,TimeSignatureSpecific>();
         private Keyboard keyboard;
-
-        private static Color white = Color.FromArgb(255, 255, 255, 255);
-        private static Color black = Color.FromArgb(255, 0, 0, 0);
-        private static Color highlighted = Color.FromArgb(255, 255, 105, 180);
-
 
         public KeyTranslator(Keyboard keyboard)
         {
@@ -49,7 +44,6 @@ namespace MoodKeyboardContext
 
             this.keyboard = keyboard;
 
-            keysToNotes = new Dictionary<AdaptiveKey, Note>();
             keysToNotes[AdaptiveKey.W] = new Note(NoteValue.A, STARTING_OCTAVE - 1);
             keysToNotes[AdaptiveKey.E] = new Note(NoteValue.B, STARTING_OCTAVE - 1);
             keysToNotes[AdaptiveKey.R] = new Note(NoteValue.C, STARTING_OCTAVE);
