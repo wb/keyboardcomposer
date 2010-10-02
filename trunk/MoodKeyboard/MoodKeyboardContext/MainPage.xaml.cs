@@ -132,7 +132,13 @@ namespace MoodKeyboardContext
                 Encoding enc = Encoding.UTF8;
                 String s = enc.GetString(e.messageData, 0, e.messageData.Length);
                 BitmapImage im = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
-                this.spectrum.Source = im;
+
+                bmSrc = new WriteableBitmap(im);
+
+                bmDst = new WriteableBitmap(touchpadWidth, touchpadHeight);
+
+                ResetDst(0);
+                this.spectrum.Source = bmDst;
             }
             if (this.context != null)
             {
