@@ -59,7 +59,7 @@ namespace MoodKeyboard
     {
         private List<LPSlice> score;
         private int position = 0;
-       
+
         /* store defaults */
         public static int defaultDuration = 1;
 
@@ -143,13 +143,14 @@ namespace MoodKeyboard
             }
         }
     }
-    class LPSlice : LPObject {
-        
+    class LPSlice : LPObject
+    {
+
         private List<LPNote> notes;
         private LPRest rest;
         private LPDynamic dynamic;
 
-        public LPSlice() 
+        public LPSlice()
         {
             notes = new List<LPNote>();
         }
@@ -244,7 +245,8 @@ namespace MoodKeyboard
                         rest.duration = inverseDuration.duration;
                     }
 
-                    foreach (LPNote n in notes) {
+                    foreach (LPNote n in notes)
+                    {
                         n.duration = inverseDuration.duration;
                     }
 
