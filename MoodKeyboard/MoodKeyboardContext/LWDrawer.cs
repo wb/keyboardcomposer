@@ -182,7 +182,8 @@ namespace MoodKeyboardContext
 
         public void KeyPressed(AdaptiveKey key)
         {
-            ToggleHighlight(key);
+            //ToggleHighlight(key);
+            bool shouldRedraw = false;
 
             bool willShift = (key == AdaptiveKey.OpeningBracket || key == AdaptiveKey.Q || key == AdaptiveKey.PlusSign || key == AdaptiveKey.D1);
 
@@ -217,15 +218,19 @@ namespace MoodKeyboardContext
                         keysSelectedTable[newKey] = true;
                     }
                 }
+
+                shouldRedraw = true;
             }
 
             if (key == KeyTranslator.DYNAMIC_DOWN)
             {
+                shouldRedraw = true;
                 previousDynamic.dynamicValue = currentDynamic.dynamicValue;
                 currentDynamic.dynamicValue = (DynamicValue)Math.Max((int)currentDynamic.dynamicValue - 1, 0);
             }
             else if (key == KeyTranslator.DYNAMIC_UP)
             {
+                shouldRedraw = true;
                 previousDynamic.dynamicValue = currentDynamic.dynamicValue;
                 currentDynamic.dynamicValue = (DynamicValue)Math.Min((int)currentDynamic.dynamicValue + 1, (int)DynamicValue.FFF);
             }
@@ -236,6 +241,7 @@ namespace MoodKeyboardContext
             {
                 if (mode != newMode)
                 {
+                    shouldRedraw = true;
                     bool old = KeyIsSelected(key);
                     keysSelectedTable.Clear();
                     keysSelectedTable[key] = old;
@@ -249,7 +255,10 @@ namespace MoodKeyboardContext
                 }
             }
 
-            RedrawKeyboard();
+            if (shouldRedraw)
+            {
+                RedrawKeyboard();
+            }
         }
 
         public void ToggleHighlight(AdaptiveKey key)
