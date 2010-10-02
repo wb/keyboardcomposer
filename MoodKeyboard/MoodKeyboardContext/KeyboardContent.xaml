@@ -10,68 +10,8 @@
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="KeyboardStates">
-                <VisualState x:Name="Normal">
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                       Duration="00:00:00.0010000"
-                                                       Storyboard.TargetName="Keyboard"
-                                                       Storyboard.TargetProperty="(Keyboard.KeyboardState)">
-                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <keys:KeyboardState>Normal</keys:KeyboardState>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-                <VisualState x:Name="Shift">
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                       Duration="00:00:00.0010000"
-                                                       Storyboard.TargetName="Keyboard"
-                                                       Storyboard.TargetProperty="(Keyboard.KeyboardState)">
-                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <keys:KeyboardState>Shift</keys:KeyboardState>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-                <VisualState x:Name="Control">
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                       Duration="00:00:00.0010000"
-                                                       Storyboard.TargetName="Keyboard"
-                                                       Storyboard.TargetProperty="(Keyboard.KeyboardState)">
-                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <keys:KeyboardState>Ctrl</keys:KeyboardState>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-                <VisualState x:Name="Alt">
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                       Duration="00:00:00.0010000"
-                                                       Storyboard.TargetName="Keyboard"
-                                                       Storyboard.TargetProperty="(Keyboard.KeyboardState)">
-                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <keys:KeyboardState>Alt</keys:KeyboardState>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
 
-        <keys:Keyboard x:Name="Keyboard" Layout="en-US/POC4">
+        <keys:Keyboard x:Name="Keyboard">
             <keys:KeyboardKey Key="Escape">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
@@ -125,35 +65,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Find All" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="F4">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Display Address" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Ctrl"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Close Doc" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Alt"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Close Item" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -161,23 +77,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Refresh" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="F6">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock><Run Text="Cycle" /><LineBreak /><Run Text="Panes" /></TextBlock>
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -185,23 +89,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="F7" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="F8">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="F8" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -209,29 +101,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="F9" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="F10">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock><Run Text="Menu" /><LineBreak /><Run Text="Bar" /></TextBlock>
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock><Run Text="Shorcut" /><LineBreak /><Run Text="Menu" /></TextBlock>
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -239,23 +113,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="F11" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="F12">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="F12" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -263,23 +125,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Insert" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="Delete">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource SingleText}">
-                    <Grid>
-                        <TextBlock Text="Delete" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -287,46 +137,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}"
-                               d:IsHidden="True">
-                    <Grid>
-                        <TextBlock Text="~"
-                                   Margin="0,-5,0,0" />
-                        <TextBlock Text="`"
-                                   Margin="1,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="~"
-                                   Margin="0,-5,0,0" />
-                        <TextBlock Text="`"
-                                   Margin="1,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="D1">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="!"
-                                   Margin="2,0,0,0" />
-                        <TextBlock Text="1" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="!"
-                                   Margin="2,0,0,0" />
-                        <TextBlock Text="1" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -334,45 +149,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="@"
-                                   Margin="0,-1,0,0" />
-                        <TextBlock Text="2"
-                                   Margin="2,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="@"
-                                   Margin="0,-1,0,0" />
-                        <TextBlock Text="2"
-                                   Margin="2,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="D3">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="#" />
-                        <TextBlock Text="3"
-                                   Margin="1,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="#" />
-                        <TextBlock Text="3"
-                                   Margin="1,0,0,0" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -380,43 +161,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="$"
-                                   Margin="1,0,0,0" />
-                        <TextBlock Text="4" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="$"
-                                   Margin="1,0,0,0" />
-                        <TextBlock Text="4" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="D5">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="%" />
-                        <TextBlock Text="5"
-                                   Margin="1,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="%" />
-                        <TextBlock Text="5"
-                                   Margin="1,0,0,0" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -424,41 +173,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="^" />
-                        <TextBlock Text="6"
-                                   Margin="1,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="^" />
-                        <TextBlock Text="6"
-                                   Margin="1,0,0,0" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="D7">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="&#38;" />
-                        <TextBlock Text="7" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="&#38;" />
-                        <TextBlock Text="7" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -466,43 +185,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="*"
-                                   Margin="1,0,0,0" />
-                        <TextBlock Text="8" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="*"
-                                   Margin="1,0,0,0" />
-                        <TextBlock Text="8" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="D9">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="("
-                                   Margin="1,0,0,0" />
-                        <TextBlock Text="9" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="("
-                                   Margin="1,0,0,0" />
-                        <TextBlock Text="9" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -510,43 +197,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text=")"
-                                   Margin="2,0,0,0" />
-                        <TextBlock Text="0" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text=")"
-                                   Margin="2,0,0,0" />
-                        <TextBlock Text="0" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="MinusSign">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="_"
-                                   Margin="0,-8,0,0" />
-                        <TextBlock Text="-" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="_"
-                                   Margin="0,-8,0,0" />
-                        <TextBlock Text="-" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
@@ -554,33 +209,11 @@
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
                 </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource DualChar_BottomEmphasis}">
-                    <Grid>
-                        <TextBlock Text="+" />
-                        <TextBlock Text="=" />
-                    </Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Shift"
-                               Template="{StaticResource DualChar_TopEmphasis}">
-                    <Grid>
-                        <TextBlock Text="+" />
-                        <TextBlock Text="=" />
-                    </Grid>
-                </keys:KeyState>
             </keys:KeyboardKey>
 
             <keys:KeyboardKey Key="Back">
                 <keys:KeyState State="Normal" Template="{StaticResource EmptyKeyTemplate}">
                     <Grid></Grid>
-                </keys:KeyState>
-                <keys:KeyState State="Normal"
-                               Template="{StaticResource TextAndImage}">
-                    <Grid>
-                        <TextBlock Text="Backspace"
-                                   Margin="0,0,0,2" />
-                        <Image Source="Images/Backspace.png" />
-                    </Grid>
                 </keys:KeyState>
             </keys:KeyboardKey>
 
