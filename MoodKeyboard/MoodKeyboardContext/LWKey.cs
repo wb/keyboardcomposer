@@ -1,51 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using System.Collections.Generic;
 
 namespace LWEvent
 {
-    public class LWEventDataList : List<LWEventData>
-    {
-        public const String DELIMITER = "###";
-        public LWEventDataList()
-        {
-        }
-         
-        public String Serialize()
-        {
-            String s = "";
-
-            for (int i = 0; i < this.Count; i ++ )
-            {
-                s = s + this[i].Serialize();
-
-                if (i < this.Count - 1)
-                {
-                    s = s + DELIMITER;
-                }
-            }
-
-            return s;
-        }
-
-        public static LWEventDataList Deserialize(String s)
-        {
-            LWEventDataList list = new LWEventDataList();
-
-            String[] delimiters = new String[1];
-            delimiters[0] = DELIMITER;
-            String[] items = s.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-            for (int i = 0; i < items.Length; i++)
-            {
-                LWEventData eventData = LWEventData.Deserialize(items[i]);
-                list.Add(eventData);
-            }
-
-            return list;
-        }
-    }
-
     public abstract class LWKey
     {
         public virtual String Serialize() { return ""; }
