@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LWEvent
 {
-    public class LWKeyMap : Dictionary<LWKeyType, LWKey>
+    public class LWKeyMap : Dictionary<LWKey, LWKeyType>
     {
         public const String DELIMITER = "###";
         public LWKeyMap()
@@ -15,9 +15,9 @@ namespace LWEvent
         {
             String s = "";
 
-            foreach (KeyValuePair<LWKeyType, LWKey> kvp in this)
+            foreach (KeyValuePair<LWKey, LWKeyType> kvp in this)
             {
-                LWEventData ed = new LWEventData(kvp.Value, kvp.Key);
+                LWEventData ed = new LWEventData(kvp.Key, kvp.Value);
                 s = s + ed.Serialize() + DELIMITER;
             }
 
@@ -41,7 +41,7 @@ namespace LWEvent
             for (int i = 0; i < items.Length; i++)
             {
                 LWEventData eventData = LWEventData.Deserialize(items[i]);
-                map[eventData.eventType] = eventData.key;
+                map[eventData.key] = eventData.eventType;
             }
 
             return map;
