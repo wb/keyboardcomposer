@@ -143,7 +143,29 @@ namespace MoodKeyboardContext
                     currentDynamic.dynamicValue = d.dynamicValue;
                 }
             }
+            
+            if (map.ContainsValue(LWKeyType.NOTE))
+            {
+                mode = LWMode.NOTE;
+            }
+            else if (map.ContainsValue(LWKeyType.REST))
+            {
+                mode = LWMode.REST;
+            }
+            else if (map.ContainsValue(LWKeyType.TIME_SIGNATURE))
+            {
+                mode = LWMode.TIME_SIGNATURE;
+            }
+            else if (map.ContainsValue(LWKeyType.CLEF))
+            {
+                mode = LWMode.CLEF;
+            }
+            else
+            {
+                mode = LWMode.NONE;
+            }
 
+            MessageBox.Show("About to redraw keyboard");
             RedrawKeyboard();
         }
 
