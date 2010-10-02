@@ -187,12 +187,15 @@ namespace MoodKeyboardContext
 
         public void KeyPressed(AdaptiveKey key)
         {
+            bool needToRedraw = false;
             ToggleHighlight(key);
 
             bool willShift = (key == AdaptiveKey.OpeningBracket || key == AdaptiveKey.Q || key == AdaptiveKey.PlusSign || key == AdaptiveKey.D1);
 
             if (willShift)
             {
+                needToRedraw = true;
+
                 foreach (KeyValuePair<AdaptiveKey, String> kvp in notes)
                 {
                     keysSelectedTable[kvp.Key] = false;
@@ -227,12 +230,20 @@ namespace MoodKeyboardContext
             if (key == KeyTranslator.DYNAMIC_DOWN)
             {
                 previousDynamic.dynamicValue = currentDynamic.dynamicValue;
-                currentDynamic.dynamicValue = (DynamicValue)Math.Max((int)currentDynamic.dynamicValue - 1, 0);
+                currentDynamic.dynamicValue = (DynamicValue)Math.Max((int)currentDynamic.dynamicValue - 1, (int) DynamicValue.PPP);
+                if (!KeyIsSelected(KeyTranslator.DYNAMIC_KEY) || previousDynamic.dynamicValue == currentDynamic.dynamicValue)
+                {
+                    needToRedraw = true;
+                }
             }
             else if (key == KeyTranslator.DYNAMIC_UP)
             {
                 previousDynamic.dynamicValue = currentDynamic.dynamicValue;
                 currentDynamic.dynamicValue = (DynamicValue)Math.Min((int)currentDynamic.dynamicValue + 1, (int)DynamicValue.FFF);
+                if (!KeyIsSelected(KeyTranslator.DYNAMIC_KEY) || previousDynamic.dynamicValue == currentDynamic.dynamicValue)
+                {
+                    needToRedraw = true;
+                }
             }
 
             LWMode newMode = keyTranslator.ModeFromKey(key, keysSelectedTable, currentlySelectedNotes.Count == 0);
@@ -251,7 +262,10 @@ namespace MoodKeyboardContext
             }
 
             //MessageBox.Show("About to redraw keyboard because of keypress");
-            //RedrawKeyboard();
+            if (needToRedraw)
+            {
+                RedrawKeyboard();
+            }
         }
 
         public void ToggleHighlight(AdaptiveKey key)
