@@ -1,8 +1,53 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Text;
 
 namespace LWEvent
 {
+    public class LWKeyMap : Dictionary<LWKeyType, LWKey>
+    {
+        public const String DELIMITER = "###";
+        public LWKeyMap()
+        {
+        }
+
+        public byte[] Serialize()
+        {
+            String s = "";
+
+            foreach (KeyValuePair<LWKeyType, LWKey> kvp in this)
+            {
+                LWEventData ed = new LWEventData(kvp.Value, kvp.Key);
+                s = s + ed.Serialize() + DELIMITER;
+            }
+
+            Encoding encoder = Encoding.UTF8;
+            byte[] data = encoder.GetBytes(s);
+
+            return data;
+        }
+
+        public static LWKeyMap Deserialize(byte[] data)
+        {
+            Encoding enc = Encoding.UTF8;
+            String s = enc.GetString(data, 0, data.Length);
+
+            LWKeyMap map = new LWKeyMap();
+
+            String[] delimiters = new String[1];
+            delimiters[0] = DELIMITER;
+            String[] items = s.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                LWEventData eventData = LWEventData.Deserialize(items[i]);
+                map[eventData.eventType] = eventData.key;
+            }
+
+            return map;
+        }
+    }
+
     public class LWEventData
     {
         public LWKey key;
@@ -20,13 +65,24 @@ namespace LWEvent
             this.eventType = et;
         }
 
-        public String Serialize()
+        public byte[] Serialize()
         {
             String s = "";
             s = s + String.Format("{0:G};", (int)eventType);
             s = s + key.Serialize();
 
-            return s;
+            Encoding encoder = Encoding.UTF8;
+            byte[] data = encoder.GetBytes(s);
+
+            return data;
+        }
+
+        public static LWEventData Deserialize(byte[] data)
+        {
+            Encoding enc = Encoding.UTF8;
+            String s = enc.GetString(data, 0, data.Length);
+
+            return LWEventData.Deserialize(s);
         }
 
         public static LWEventData Deserialize(String s)

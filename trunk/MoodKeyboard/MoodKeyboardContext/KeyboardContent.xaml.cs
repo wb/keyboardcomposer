@@ -53,7 +53,7 @@ namespace MoodKeyboardContext
             {
                 if (e.messageID == (int)LWMessageID.FROM_APPLICATION)
                 {
-
+                    LWEventDataList list = LWEventDataList.Deserialize(e.messageData);
                 }
             }
         }
@@ -120,10 +120,7 @@ namespace MoodKeyboardContext
 
                 if (eventData.eventType != LWKeyType.NOT_IMPLEMENTED)
                 {
-                    String eventStr = eventData.Serialize();
-                    Encoding encoder = Encoding.UTF8;
-                    byte[] data = encoder.GetBytes(eventStr);
-                    context.SendMessage((int) LWMessageID.FROM_KEYBOARD, data);
+                    context.SendMessage((int) LWMessageID.FROM_KEYBOARD, eventData.Serialize());
                 }
             }
 
