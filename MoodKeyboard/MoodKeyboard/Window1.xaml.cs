@@ -105,7 +105,7 @@ namespace MoodKeyboard
                 {
                     keyToPng.UpdateImage();
 
-                    String s = "C:/Users/Laura/Desktop/tmp/out" + keyToPng.imageVersion + ".png";
+                    String s = "C:/tmp/out" + keyToPng.imageVersion + ".png";
                     Console.WriteLine("Loading image " + s);
                     data = enc.GetBytes(s);
 
