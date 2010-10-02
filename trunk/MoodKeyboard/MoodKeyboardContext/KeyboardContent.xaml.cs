@@ -53,7 +53,10 @@ namespace MoodKeyboardContext
                 if (e.messageID == (int)LWMessageID.HIGHLIGHT_KEYS)
                 {
                     LWKeyMap map = LWKeyMap.Deserialize(e.messageData);
-                    drawer.Highlight(map);
+                    lock (drawer)
+                    {
+                        drawer.Highlight(map);
+                    }
                 }
             }
         }
@@ -114,16 +117,19 @@ namespace MoodKeyboardContext
             {
                 KeyboardKey key = FindKeyPressed(e.scanCode);
 
-                drawer.KeyPressed(key.Key);
-
-                LWEventData eventData = drawer.TranslateKeyboardKeyToEvent(key.Key);
-
-                if (eventData.eventType != LWKeyType.NOT_IMPLEMENTED)
+                lock (drawer)
                 {
-                    String s = eventData.Serialize();
-                    Encoding encoder = Encoding.UTF8;
-                    byte[] data = encoder.GetBytes(s);
-                    context.SendMessage((int) LWMessageID.FROM_KEYBOARD, data);
+                    drawer.KeyPressed(key.Key);
+
+                    LWEventData eventData = drawer.TranslateKeyboardKeyToEvent(key.Key);
+
+                    if (eventData.eventType != LWKeyType.NOT_IMPLEMENTED)
+                    {
+                        String s = eventData.Serialize();
+                        Encoding encoder = Encoding.UTF8;
+                        byte[] data = encoder.GetBytes(s);
+                        context.SendMessage((int) LWMessageID.FROM_KEYBOARD, data);
+                    }
                 }
             }
 
