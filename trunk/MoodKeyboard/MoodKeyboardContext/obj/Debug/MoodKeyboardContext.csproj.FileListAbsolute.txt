@@ -49,3 +49,16 @@ C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard
 C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboardContext\obj\Debug\MoodKeyboardContext.dll
 C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboardContext\obj\Debug\MoodKeyboardContext.pdb
 C:\Users\Walter\Documents\Adaptive Keyboard Development\Sample Code\MoodKeyboard\MoodKeyboardContext\obj\Debug\XapCacheFile.xml
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\Debug\MoodKeyboardContext.dll
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\Debug\MoodKeyboardContext.pdb
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\Debug\AppManifest.xaml
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\Debug\MoodKeyboardContext.xap
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\Debug\TestPage.html
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\App.g.cs
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\KeyboardContent.g.cs
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\MainPage.g.cs
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\MoodKeyboardContext.g.resources
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\MoodKeyboardContext.dll
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\MoodKeyboardContext.pdb
+C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\obj\Debug\XapCacheFile.xml

@@ -59,6 +59,9 @@ namespace MoodKeyboard
     {
         private List<LPSlice> score;
         private int position = 0;
+       
+        /* store defaults */
+        public static int defaultDuration = 1;
 
         public LPScore()
         {
@@ -190,7 +193,7 @@ namespace MoodKeyboard
                  * */
                 case LWKeyType.NOTE:
                     Note note = eventData.key as Note;
-                    LPNote lpNote = new LPNote(note.value, note.octave, note.duration);
+                    LPNote lpNote = new LPNote(note.value, note.octave, LPScore.defaultDuration);
                     if (notes.Contains(lpNote))
                     {
                         notes.Remove(lpNote);
@@ -213,7 +216,7 @@ namespace MoodKeyboard
                  * 3) If note(s) already exist, remove them.
                  * */
                 case LWKeyType.REST:
-                    LPRest lpRest = new LPRest(4);
+                    LPRest lpRest = new LPRest(LPScore.defaultDuration);
                     if (rest != null)
                     {
                         rest = null;
@@ -234,6 +237,8 @@ namespace MoodKeyboard
                  * */
                 case LWKeyType.INVERSE_DURATION:
                     InverseDuration inverseDuration = eventData.key as InverseDuration;
+
+                    /* update the actual notes/rests for lilypond */
                     if (rest != null)
                     {
                         rest.duration = inverseDuration.duration;
@@ -242,6 +247,11 @@ namespace MoodKeyboard
                     foreach (LPNote n in notes) {
                         n.duration = inverseDuration.duration;
                     }
+
+
+                    /* and set this as the default duration */
+                    LPScore.defaultDuration = inverseDuration.duration;
+
                     return true;
                 /* Rules:
                  * 1) if no dynamic, add it
