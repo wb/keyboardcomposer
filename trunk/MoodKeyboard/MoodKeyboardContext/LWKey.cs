@@ -72,7 +72,7 @@ namespace LWEvent
 
     public class Dots : LWKey
     {
-        int dots;
+        public int dots;
 
         public Dots(int dots)
         {
@@ -129,6 +129,11 @@ namespace LWEvent
         {
             this.over = over;
             this.under = under;
+        }
+
+        public bool EqualTimePair(TimePair tp)
+        {
+            return (tp.over == over && tp.under == under);
         }
     }
 

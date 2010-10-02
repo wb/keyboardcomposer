@@ -27,10 +27,14 @@ namespace MoodKeyboardContext
         public const AdaptiveKey DYNAMIC_UP = AdaptiveKey.Semicolon;
         public const AdaptiveKey DYNAMIC_DOWN = AdaptiveKey.K;
         public const AdaptiveKey SLUR_KEY = AdaptiveKey.F9;
-        public const AdaptiveKey CRESCENDO = AdaptiveKey.F10;
-        public const AdaptiveKey DECRESCENDO = AdaptiveKey.F11;
+        public const AdaptiveKey CRESCENDO_KEY = AdaptiveKey.F10;
+        public const AdaptiveKey DECRESCENDO_KEY = AdaptiveKey.F11;
 
         private Dictionary<AdaptiveKey, Note> keysToNotes;
+        private Dictionary<AdaptiveKey, ClefSpecific> clefs;
+        private Dictionary<AdaptiveKey, Dots> dots;
+        private Dictionary<AdaptiveKey, InverseDuration> durations;
+        private Dictionary<AdaptiveKey, TimeSignatureSpecific> timeSignatures;
         private Keyboard keyboard;
 
         private static Color white = Color.FromArgb(255, 255, 255, 255);
@@ -59,91 +63,149 @@ namespace MoodKeyboardContext
             keysToNotes[AdaptiveKey.D8] = new Note(NoteValue.F_SHARP, STARTING_OCTAVE);
             keysToNotes[AdaptiveKey.D9] = new Note(NoteValue.G_SHARP, STARTING_OCTAVE);
             keysToNotes[AdaptiveKey.D0] = new Note(NoteValue.A_SHARP, STARTING_OCTAVE);
+
+            clefs[AdaptiveKey.C] = new ClefSpecific(ClefType.TREBLE);
+            clefs[AdaptiveKey.V] = new ClefSpecific(ClefType.ALTO);
+            clefs[AdaptiveKey.B] = new ClefSpecific(ClefType.BASS);
+            clefs[AdaptiveKey.N] = new ClefSpecific(ClefType.PERCUSSION);
+            clefs[AdaptiveKey.M] = new ClefSpecific(ClefType.TABLATURE);
+
+            dots[AdaptiveKey.Comma] = new Dots(1);
+            dots[AdaptiveKey.Period] = new Dots(2);
+        
+            durations[AdaptiveKey.Z] = new InverseDuration(32);
+            durations[AdaptiveKey.X] = new InverseDuration(16);
+            durations[AdaptiveKey.C] = new InverseDuration(8);
+            durations[AdaptiveKey.V] = new InverseDuration(4);
+            durations[AdaptiveKey.B] = new InverseDuration(2);
+            durations[AdaptiveKey.N] = new InverseDuration(1);
+
+            timeSignatures[AdaptiveKey.S] = new TimeSignatureSpecific(new TimePair(2, 2));
+            timeSignatures[AdaptiveKey.X] = new TimeSignatureSpecific(new TimePair(3, 2));
+            timeSignatures[AdaptiveKey.D] = new TimeSignatureSpecific(new TimePair(4, 4));
+            timeSignatures[AdaptiveKey.C] = new TimeSignatureSpecific(new TimePair(2, 4));
+            timeSignatures[AdaptiveKey.F] = new TimeSignatureSpecific(new TimePair(3, 4));
+            timeSignatures[AdaptiveKey.V] = new TimeSignatureSpecific(new TimePair(5, 4));
+            timeSignatures[AdaptiveKey.G] = new TimeSignatureSpecific(new TimePair(3, 8));
+            timeSignatures[AdaptiveKey.B] = new TimeSignatureSpecific(new TimePair(5, 8));
+            timeSignatures[AdaptiveKey.H] = new TimeSignatureSpecific(new TimePair(6, 8));
+            timeSignatures[AdaptiveKey.N] = new TimeSignatureSpecific(new TimePair(7, 8));
+            timeSignatures[AdaptiveKey.J] = new TimeSignatureSpecific(new TimePair(9, 8));
+            timeSignatures[AdaptiveKey.M] = new TimeSignatureSpecific(new TimePair(12, 8));
+        }
+
+        public AdaptiveKey KeyFromLWKey(LWKeyType type, LWKey key)
+        {
+            switch (type)
+            {
+                case LWKeyType.CLEF:
+                    return CLEF_KEY;
+                case LWKeyType.CLEF_SPECIFIC:
+                    ClefSpecific cs = key as ClefSpecific;
+                    foreach (KeyValuePair<AdaptiveKey, ClefSpecific> kvp in clefs)
+                    {
+                        if (kvp.Value.clef == cs.clef)
+                            return kvp.Key;
+                    }
+                    return AdaptiveKey.None;
+                case LWKeyType.CRESCENDO:
+                    return CRESCENDO_KEY;
+                case LWKeyType.DECRESCENDO:
+                    return DECRESCENDO_KEY;
+                case LWKeyType.DOTS:
+                    Dots dot = key as Dots;
+                    foreach (KeyValuePair<AdaptiveKey, Dots> kvp in dots)
+                    {
+                        if (kvp.Value.dots == dot.dots)
+                            return kvp.Key;
+                    }
+                    return AdaptiveKey.None;
+                case LWKeyType.DYNAMIC:
+                    return DYNAMIC_KEY;
+                case LWKeyType.INVERSE_DURATION:
+                    InverseDuration iv = key as InverseDuration;
+                    foreach (KeyValuePair<AdaptiveKey, InverseDuration> kvp in durations)
+                    {
+                        if (kvp.Value.duration == iv.duration)
+                            return kvp.Key;
+                    }
+                    return AdaptiveKey.None;
+                case LWKeyType.NOT_IMPLEMENTED:
+                    return AdaptiveKey.None;
+                case LWKeyType.NOTE:
+                    Note note = key as Note;
+                    foreach (KeyValuePair<AdaptiveKey, Note> kvp in keysToNotes)
+                    {
+                        if (note.Equals(kvp.Value))
+                            return kvp.Key;
+                    }
+                    return AdaptiveKey.None;
+                case LWKeyType.REST:
+                    return REST_KEY;
+                case LWKeyType.SLUR:
+                    return SLUR_KEY;
+                case LWKeyType.SPACE:
+                    return AdaptiveKey.Space;
+                case LWKeyType.TIME_SIGNATURE:
+                    return TIME_SIGNATURE_KEY;
+                case LWKeyType.TIME_SIGNATURE_SPECIFIC:
+                    TimeSignatureSpecific tss = key as TimeSignatureSpecific;
+                    foreach (KeyValuePair<AdaptiveKey, TimeSignatureSpecific> kvp in timeSignatures)
+                    {
+                        if (kvp.Value.timePair.EqualTimePair(tss.timePair))
+                            return kvp.Key;
+                    }
+                    return AdaptiveKey.None;
+                default:
+                    return AdaptiveKey.None;
+            }
         }
 
         public TimePair TimePairFromKey(AdaptiveKey key)
         {
-            switch (key)
+            if (timeSignatures.ContainsKey(key))
             {
-                case AdaptiveKey.S:
-                    return new TimePair(2, 2);
-                case AdaptiveKey.X:
-                    return new TimePair(3, 2);
-                case AdaptiveKey.D:
-                    return new TimePair(4, 4);
-                case AdaptiveKey.C:
-                    return new TimePair(2, 4);
-                case AdaptiveKey.F:
-                    return new TimePair(3, 4);
-                case AdaptiveKey.V:
-                    return new TimePair(5, 4);
-                case AdaptiveKey.G:
-                    return new TimePair(3, 8);
-                case AdaptiveKey.B:
-                    return new TimePair(5, 8);
-                case AdaptiveKey.H:
-                    return new TimePair(6, 8);
-                case AdaptiveKey.N:
-                    return new TimePair(7, 8);
-                case AdaptiveKey.J:
-                    return new TimePair(9, 8);
-                case AdaptiveKey.M:
-                    return new TimePair(12, 8);
-                default:
-                    return new TimePair(-1, -1);
+                return timeSignatures[key].timePair;
+            }
+            else
+            {
+                return new TimePair(-1, -1);
             }
         }
 
         public ClefType ClefFromKey(AdaptiveKey key)
         {
-            switch (key)
+            if (clefs.ContainsKey(key))
             {
-                case AdaptiveKey.C:
-                    return ClefType.TREBLE;
-                case AdaptiveKey.V:
-                    return ClefType.ALTO;
-                case AdaptiveKey.B:
-                    return ClefType.BASS;
-                case AdaptiveKey.N:
-                    return ClefType.PERCUSSION;
-                case AdaptiveKey.M:
-                    return ClefType.TABLATURE;
-                default:
-                    return ClefType.NONE;
+                return clefs[key].clef;
+            }
+            else
+            {
+                return ClefType.NONE;
             }
         }
 
         public int DotsFromKey(AdaptiveKey key)
         {
-            switch (key)
+            if (dots.ContainsKey(key))
             {
-                case AdaptiveKey.Comma:
-                    return 1;
-                case AdaptiveKey.Period:
-                    return 2;
-                default:
-                    return 0;
+                return dots[key].dots;
+            }
+            else
+            {
+                return 0;
             }
         }
 
         public int DurationFromKey(AdaptiveKey key)
         {
-            switch (key)
+            if (durations.ContainsKey(key))
             {
-                case AdaptiveKey.Z:
-                    return 32;
-                case AdaptiveKey.X:
-                    return 16;
-                case AdaptiveKey.C:
-                    return 8;
-                case AdaptiveKey.V:
-                    return 4;
-                case AdaptiveKey.B:
-                    return 2;
-                case AdaptiveKey.N:
-                    return 1;
-                default:
-                    return -1;
+                return durations[key].duration;
+            }
+            else
+            {
+                return -1;
             }
         }
 
