@@ -124,7 +124,9 @@ namespace MoodKeyboard
 
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
+            keyToPng.UpdateImage();
             String s = "C:/tmp/out" + keyToPng.imageVersion + ".png";
+            Console.WriteLine("Refreshing Image: " + s);
             Grid grid = this.Content as Grid;
             Image image = grid.Children[0] as Image;
             image.Source = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
@@ -132,7 +134,7 @@ namespace MoodKeyboard
 
         private void Img_Score_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
-
+            Console.WriteLine("Image failed to load into main window.");
         }       
     }
 
