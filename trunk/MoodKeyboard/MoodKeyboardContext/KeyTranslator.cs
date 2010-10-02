@@ -90,7 +90,7 @@ namespace MoodKeyboardContext
                 case AdaptiveKey.M:
                     return new TimePair(12, 8);
                 default:
-                    return new TimePair(4, 4);
+                    return new TimePair(-1, -1);
             }
         }
 
@@ -109,7 +109,7 @@ namespace MoodKeyboardContext
                 case AdaptiveKey.M:
                     return ClefType.TABLATURE;
                 default:
-                    return ClefType.TREBLE;
+                    return ClefType.NONE;
             }
         }
 
@@ -143,7 +143,7 @@ namespace MoodKeyboardContext
                 case AdaptiveKey.N:
                     return 1;
                 default:
-                    return 4;
+                    return -1;
             }
         }
 
