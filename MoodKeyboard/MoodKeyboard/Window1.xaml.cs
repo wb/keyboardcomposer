@@ -98,18 +98,21 @@ namespace MoodKeyboard
                 String dataStr = enc.GetString(data, 0, data.Length);
                 //Console.WriteLine(dataStr);
                 keyToPng.HandleKey(LWEventData.Deserialize(dataStr));
+                byte[] cereal = keyToPng.score.currentSliceCereal();
+                this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.HIGHLIGHT_KEYS, cereal, (uint) cereal.Length);
             }
         }
 
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("painting");
-            String s = "Images/Chrysanthemum.jpg";
+            Console.WriteLine("painting da photos");
+            String s = "C:/Users/Walter/Desktop/tmp/out" + keyToPng.imageVersion + ".png";
+            Console.WriteLine("Loading image " + s);
             Encoding enc = Encoding.UTF8;
             byte[] data = enc.GetBytes(s);
             this.adaptiveContextManager.PostContextMessage(
                 this.adaptiveContext,
-                (int)LWMessageID.FROM_APPLICATION,
+                (int)LWMessageID.CHANGE_PICTURE,
                 data,
                 (uint)data.Length);
         }       

@@ -10,7 +10,8 @@ namespace MoodKeyboard
 {
     class KeyToPng
     {
-        private LPScore score;
+        public LPScore score;
+        public int imageVersion = 0;
 
         public KeyToPng()
         {
@@ -19,18 +20,33 @@ namespace MoodKeyboard
 
         public void HandleKey(LWEventData eventData)
         {
+             
+            /* add event data */
             score.addEventData(eventData);
+
+            /* print the lilypond file */
             Console.WriteLine("===============================================");
             Console.WriteLine();
             Console.WriteLine(score.LPSymbol());
             Console.WriteLine();
             Console.WriteLine("===============================================");
 
-            TextWriter tw = new StreamWriter("C:\\Users\\Walter\\Desktop\\in.ly");
+            /* create the png */
+            TextWriter tw = new StreamWriter("in.ly");
             tw.Write(score.LPSymbol());
             tw.Flush();
             tw.Close();
-            ExecuteCommand("lilypond -dpreview -fpng -o C:\\Users\\Walter\\Desktop\\out.png C:\\Users\\Walter\\Desktop\\in.ly", 5000);
+            //ExecuteCommand("lilypond -fpng -o ../MoodKeyboardContext/Images/out in.ly", 5000);
+            
+            ExecuteCommand("lilypond -fpng -o C:/Users/Walter/Desktop/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
+            Console.WriteLine("lilypond -fpng -o C:/Users/Walter/Desktop/tmp/out" + (imageVersion + 1) + " in.ly");
+            /* send updates back to keyboard */
+
+            /* and don't forget the image :) */
+
+            imageVersion++;
+
+
         }
 
         public static int ExecuteCommand(string Command, int Timeout)
@@ -129,11 +145,13 @@ namespace MoodKeyboard
         {
             if (eventData.eventType == LWKeyType.SPACE)
             {
-                position++;
-                if (position >= score.Count)
+               
+                if (position + 1 >= score.Count)
                 {
                     score.Add(new LPSlice());
                 }
+
+                position++;
             }
 
             if (position >= 0 && position < score.Count)
@@ -144,6 +162,11 @@ namespace MoodKeyboard
             {
                 Console.WriteLine("Error: score position is invalid.");
             }
+        }
+
+        public byte[] currentSliceCereal()
+        {
+            return score.ElementAt(position).Serialize();
         }
     }
     class LPSlice : LPObject
