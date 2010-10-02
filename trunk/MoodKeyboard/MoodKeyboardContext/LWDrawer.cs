@@ -22,7 +22,7 @@ namespace MoodKeyboardContext
         private static Color normal = Color.FromArgb(255, 255, 255, 255);
         private static Color off = Color.FromArgb(255, 0, 0, 0);
         private static Color highlighted = Color.FromArgb(255, 255, 105, 180);
-        private static Color menu = Color.FromArgb(255, 255, 0, 255);
+        private static Color menu = Color.FromArgb(255, 0, 0, 255);
 
         private Dictionary<AdaptiveKey, String> noteLengths = new Dictionary<AdaptiveKey, string>();
         private Dictionary<AdaptiveKey, String> times = new Dictionary<AdaptiveKey, string>();
