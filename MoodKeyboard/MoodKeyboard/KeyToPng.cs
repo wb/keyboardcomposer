@@ -220,6 +220,7 @@ namespace MoodKeyboard
                 }
                 symbols += ">";
                 symbols += notes.ElementAt(0).duration;
+                symbols += notes.ElementAt(0).dotsToString();
             }
             else if (rest != null)
             {
@@ -344,8 +345,12 @@ namespace MoodKeyboard
 
                     }
                     return true;
-                case LWKeyType.DECRESCENDO:
-
+                case LWKeyType.DOTS:
+                    Dots dots = eventData.key as Dots;
+                    foreach(LPNote n in notes)
+                    {
+                        n.setDots(dots.dots);
+                    }
                     return true;
                 default:
                     return false;
@@ -382,6 +387,7 @@ namespace MoodKeyboard
         public NoteValue value;
         public int octave;
         public int duration;
+        public int dots;
 
         public LPNote(NoteValue value, int octave, int duration)
         {
@@ -412,6 +418,35 @@ namespace MoodKeyboard
             }
 
             return symbol;
+        }
+
+        public string dotsToString()
+        {
+            string dots = "";
+
+            for (int i = 0; i < this.dots; i++ )
+            {
+                dots += ".";
+            }
+
+            return dots;
+        }
+
+        public void setDots(int dots)
+        {
+            if (dots < 0 || dots > 2)
+            {
+                return;
+            }
+
+            if (dots == this.dots)
+            {
+                dots = 0;
+            }
+            else
+            {
+                this.dots = dots;
+            }
         }
 
         private static String NoteValueToString(NoteValue value)
