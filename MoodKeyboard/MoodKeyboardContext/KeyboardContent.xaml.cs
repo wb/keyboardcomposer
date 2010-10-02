@@ -52,7 +52,8 @@ namespace MoodKeyboardContext
             {
                 if (e.messageID == (int)LWMessageID.HIGHLIGHT_KEYS)
                 {
-                    LWKeyMap list = LWKeyMap.Deserialize(e.messageData);
+                    LWKeyMap map = LWKeyMap.Deserialize(e.messageData);
+                    drawer.Highlight(map);
                 }
             }
         }
