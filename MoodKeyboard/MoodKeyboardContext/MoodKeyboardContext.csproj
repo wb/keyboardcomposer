@@ -80,6 +80,9 @@
     <Compile Include="KeyboardContent.xaml.cs">
       <DependentUpon>KeyboardContent.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LWEventData.cs" />
+    <Compile Include="LWKey.cs" />
+    <Compile Include="LWTouchPoint.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
