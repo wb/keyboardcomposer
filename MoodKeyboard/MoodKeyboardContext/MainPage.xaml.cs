@@ -127,11 +127,11 @@ namespace MoodKeyboardContext
 
         public void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            if (e.messageID == (int) LWMessageID.FROM_APPLICATION)
+            if (e.messageID == (int)LWMessageID.FROM_APPLICATION)
             {
-                MemoryStream ms = new MemoryStream(e.messageData);
-                BitmapImage im = new BitmapImage();
-                im.SetSource(ms);
+                Encoding enc = Encoding.UTF8;
+                String s = enc.GetString(e.messageData, 0, e.messageData.Length);
+                BitmapImage im = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
                 this.spectrum.Source = im;
             }
             if (this.context != null)
