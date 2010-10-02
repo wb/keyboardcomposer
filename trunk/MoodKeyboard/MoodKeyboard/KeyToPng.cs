@@ -22,18 +22,11 @@ namespace MoodKeyboard
         {
              
             /* add event data */
-            bool updateImage =  score.addEventData(eventData);
-
-            if (updateImage)
-            {
-                this.UpdateImage();
-            }
-
-            return updateImage;
+            return score.addEventData(eventData);
 
         }
 
-        private void UpdateImage()
+        public void UpdateImage()
         {
             /* create the png */
             TextWriter tw = new StreamWriter("in.ly");
@@ -42,11 +35,8 @@ namespace MoodKeyboard
             tw.Close();
             //ExecuteCommand("lilypond -fpng -o ../MoodKeyboardContext/Images/out in.ly", 5000);
 
-            ExecuteCommand("lilypond -fpng -o C:/Users/Walter/Desktop/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
-            Console.WriteLine("lilypond -fpng -o C:/Users/Walter/Desktop/tmp/out" + (imageVersion + 1) + " in.ly");
-            /* send updates back to keyboard */
-
-            /* and don't forget the image :) */
+            ExecuteCommand("lilypond -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
+            Console.WriteLine("lilypond -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly");
 
             imageVersion++;
         }
@@ -398,7 +388,7 @@ namespace MoodKeyboard
             LWKeyMap map = new LWKeyMap();
 
             /* add duration! */
-            if (this.notes != null && this.rest != null)
+            if ((this.notes != null && this.notes.Count > 0) || this.rest != null)
             {
                 LWKey key = new InverseDuration(LPScore.defaultDuration);
                 LWKeyType type = LWKeyType.INVERSE_DURATION;
@@ -422,6 +412,11 @@ namespace MoodKeyboard
                 int dots = rest.dots;
                 if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
                 map.Add(new Rest(), LWKeyType.REST);
+            }
+
+            if (map.Count == 0)
+            {
+                map.Add(new None(), LWKeyType.NOT_IMPLEMENTED);
             }
 
             return map.Serialize();

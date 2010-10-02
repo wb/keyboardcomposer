@@ -34,6 +34,11 @@ namespace LWEvent
 
             LWKeyMap map = new LWKeyMap();
 
+            if (s.Length == 0)
+            {
+                return map;
+            }
+
             String[] delimiters = new String[1];
             delimiters[0] = DELIMITER;
             String[] items = s.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);

@@ -103,26 +103,36 @@ namespace MoodKeyboard
 
                 if (updateImage)
                 {
-                    String s = "C:/Users/Walter/Desktop/tmp/out" + keyToPng.imageVersion + ".png";
+                    keyToPng.UpdateImage();
+
+                    String s = "C:/Users/Laura/Desktop/tmp/out" + keyToPng.imageVersion + ".png";
                     Console.WriteLine("Loading image " + s);
                     data = enc.GetBytes(s);
+
+                    Action<String> DoUpdateImage;
+                    DoUpdateImage = (path) =>
+                    {
+                        Img_Score.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
+                    };
+                    Dispatcher.BeginInvoke(DoUpdateImage, s);
+
                     this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.CHANGE_PICTURE, data, (uint)data.Length);
                 }
             }
         }
 
+
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("painting da photos");
-            String s = "C:/Users/Walter/Desktop/tmp/out" + keyToPng.imageVersion + ".png";
-            Console.WriteLine("Loading image " + s);
-            Encoding enc = Encoding.UTF8;
-            byte[] data = enc.GetBytes(s);
-            this.adaptiveContextManager.PostContextMessage(
-                this.adaptiveContext,
-                (int)LWMessageID.CHANGE_PICTURE,
-                data,
-                (uint)data.Length);
+            String s = "C:/tmp/out" + keyToPng.imageVersion + ".png";
+            Grid grid = this.Content as Grid;
+            Image image = grid.Children[0] as Image;
+            image.Source = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
+        }
+
+        private void Img_Score_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+
         }       
     }
 

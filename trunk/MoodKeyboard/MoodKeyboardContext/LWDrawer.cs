@@ -23,6 +23,7 @@ namespace MoodKeyboardContext
         private static Color off = Color.FromArgb(255, 0, 0, 0);
         private static Color highlighted = Color.FromArgb(255, 255, 105, 180);
         private static Color menu = Color.FromArgb(255, 0, 0, 255);
+        private static Color test = Color.FromArgb(255, 0, 255, 0);
 
         private Dictionary<AdaptiveKey, String> noteLengths = new Dictionary<AdaptiveKey, string>();
         private Dictionary<AdaptiveKey, String> times = new Dictionary<AdaptiveKey, string>();
@@ -118,72 +119,75 @@ namespace MoodKeyboardContext
             dynamics[DynamicValue.FF] = "Images/Dynamics/ff.png";
             dynamics[DynamicValue.FFF] = "Images/Dynamics/fff.png";
             
-            Keyboard kb = keyTranslator.GetKeyboard();
+            //Keyboard kb = keyTranslator.GetKeyboard();
 
-            Storyboard storyboard = new Storyboard();
-            foreach (object item in kb.Items)
-            {
-                KeyboardKey key = item as KeyboardKey;
-                SetKeyContentAndColor(key, "", off, "", false);
-            }
+            //foreach (object item in kb.Items)
+            //{
+            //    KeyboardKey key = item as KeyboardKey;
+            //    SetKeyContentAndColor(key, "", off, "", false);
+            //}
         }
 
         public void Highlight(LWKeyMap map)
         {
             keysSelectedTable.Clear();
+            currentlySelectedNotes.Clear();
 
-            foreach (KeyValuePair<LWKey, LWKeyType> kvp in map)
+            if (map != null && map.Count > 0)
             {
-                AdaptiveKey key = keyTranslator.KeyFromLWKey(kvp.Value, kvp.Key);
-                keysSelectedTable[key] = true;
-
-                if (kvp.Value == LWKeyType.DYNAMIC)
+                //MessageBox.Show(String.Format("There are {0:G} items in the map!", map.Count));
+                foreach (KeyValuePair<LWKey, LWKeyType> kvp in map)
                 {
-                    Dynamic d = kvp.Key as Dynamic;
-                    currentDynamic.dynamicValue = d.dynamicValue;
+                    AdaptiveKey key = keyTranslator.KeyFromLWKey(kvp.Value, kvp.Key);
+                    keysSelectedTable[key] = true;
+
+                    if (kvp.Value == LWKeyType.DYNAMIC)
+                    {
+                        Dynamic d = kvp.Key as Dynamic;
+                        previousDynamic.dynamicValue = currentDynamic.dynamicValue;
+                        currentDynamic.dynamicValue = d.dynamicValue;
+                    }
+                    else if (kvp.Value == LWKeyType.NOTE)
+                    {
+                        Note n = new Note(kvp.Key as Note);
+                        currentlySelectedNotes.Add(n);
+                    }
                 }
-            }
-            
-            if (map.ContainsValue(LWKeyType.NOTE))
-            {
-                mode = LWMode.NOTE;
-            }
-            else if (map.ContainsValue(LWKeyType.REST))
-            {
-                mode = LWMode.REST;
-            }
-            else if (map.ContainsValue(LWKeyType.TIME_SIGNATURE))
-            {
-                mode = LWMode.TIME_SIGNATURE;
-            }
-            else if (map.ContainsValue(LWKeyType.CLEF))
-            {
-                mode = LWMode.CLEF;
+
+                if (currentlySelectedNotes.Count > 0)
+                {
+                    mode = LWMode.NOTE;
+                }
+                else if (map.ContainsValue(LWKeyType.REST))
+                {
+                    mode = LWMode.REST;
+                }
+                else if (map.ContainsValue(LWKeyType.TIME_SIGNATURE))
+                {
+                    mode = LWMode.TIME_SIGNATURE;
+                }
+                else if (map.ContainsValue(LWKeyType.CLEF))
+                {
+                    mode = LWMode.CLEF;
+                }
+                else
+                {
+                    mode = LWMode.NONE;
+                }
             }
             else
             {
+                MessageBox.Show("No items in map");
                 mode = LWMode.NONE;
             }
 
-            MessageBox.Show("About to redraw keyboard");
+            //MessageBox.Show("About to redraw keyboard because of message");
             RedrawKeyboard();
-        }
-
-        public void GetHighlightedNotes(List<Note> list)
-        {
-            foreach (KeyValuePair<AdaptiveKey, String> kvp in notes)
-            {
-                if (keyTranslator.KeyShowsANote(kvp.Key) && KeyIsSelected(kvp.Key))
-                {
-                    list.Add(keyTranslator.GetNoteForKey(kvp.Key));
-                }
-            }
         }
 
         public void KeyPressed(AdaptiveKey key)
         {
-            //ToggleHighlight(key);
-            bool shouldRedraw = false;
+            ToggleHighlight(key);
 
             bool willShift = (key == AdaptiveKey.OpeningBracket || key == AdaptiveKey.Q || key == AdaptiveKey.PlusSign || key == AdaptiveKey.D1);
 
@@ -218,19 +222,15 @@ namespace MoodKeyboardContext
                         keysSelectedTable[newKey] = true;
                     }
                 }
-
-                shouldRedraw = true;
             }
 
             if (key == KeyTranslator.DYNAMIC_DOWN)
             {
-                shouldRedraw = true;
                 previousDynamic.dynamicValue = currentDynamic.dynamicValue;
                 currentDynamic.dynamicValue = (DynamicValue)Math.Max((int)currentDynamic.dynamicValue - 1, 0);
             }
             else if (key == KeyTranslator.DYNAMIC_UP)
             {
-                shouldRedraw = true;
                 previousDynamic.dynamicValue = currentDynamic.dynamicValue;
                 currentDynamic.dynamicValue = (DynamicValue)Math.Min((int)currentDynamic.dynamicValue + 1, (int)DynamicValue.FFF);
             }
@@ -241,11 +241,6 @@ namespace MoodKeyboardContext
             {
                 if (mode != newMode)
                 {
-                    shouldRedraw = true;
-                    bool old = KeyIsSelected(key);
-                    keysSelectedTable.Clear();
-                    keysSelectedTable[key] = old;
-
                     if (newMode != LWMode.NOTE)
                     {
                         currentlySelectedNotes.Clear();
@@ -255,10 +250,8 @@ namespace MoodKeyboardContext
                 }
             }
 
-            if (shouldRedraw)
-            {
-                RedrawKeyboard();
-            }
+            //MessageBox.Show("About to redraw keyboard because of keypress");
+            //RedrawKeyboard();
         }
 
         public void ToggleHighlight(AdaptiveKey key)
@@ -385,7 +378,7 @@ namespace MoodKeyboardContext
                         SetKeyContentAndColor(key, "", normal, "Images/RightArrow.png", false);
                         break;
                     default:
-                        SetKeyContentAndColor(key, "", off, "", false);
+                        SetKeyContentAndColor(key, "", test, "", false);
                         break;
                 }
             }
@@ -394,8 +387,13 @@ namespace MoodKeyboardContext
         public void RedrawKeyboard()
         {
             Keyboard kb = keyTranslator.GetKeyboard();
+            if (kb == null)
+            {
+                MessageBox.Show("Keyboard is null!");
+            }
 
-            Storyboard storyboard = new Storyboard();
+            //MessageBox.Show(String.Format("Keyboard has {0:G} items, mode is {1:G}", kb.Items.Count, mode));
+
             foreach (object item in kb.Items)
             {
                 KeyboardKey key = item as KeyboardKey;
@@ -471,9 +469,9 @@ namespace MoodKeyboardContext
                             break;
                     }
                 }
+                else { MessageBox.Show("Key was null!"); }
             }
-            storyboard.Begin();
-            keyTranslator.GetKeyboard().InvalidateArrange();
+            
         }
 
         void AddImage(String path, UIElementCollection coll, VerticalAlignment align)
@@ -502,6 +500,7 @@ namespace MoodKeyboardContext
             if (ks != null)
             {
                 Grid grid = ks.Content as Grid;
+
                 if (grid != null)
                 {
                     grid.Height = ks.ActualHeight;

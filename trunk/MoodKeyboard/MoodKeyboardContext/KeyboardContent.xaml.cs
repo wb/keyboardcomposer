@@ -52,6 +52,9 @@ namespace MoodKeyboardContext
             {
                 if (e.messageID == (int)LWMessageID.HIGHLIGHT_KEYS)
                 {
+                    Encoding enc = Encoding.UTF8;
+                    String s = enc.GetString(e.messageData, 0, e.messageData.Length);
+                    //MessageBox.Show("About to deserialize map");
                     LWKeyMap map = LWKeyMap.Deserialize(e.messageData);
                     lock (drawer)
                     {
@@ -77,10 +80,15 @@ namespace MoodKeyboardContext
 
         void KeySetDefault_Loaded(object sender, RoutedEventArgs e)
         {
+            //MessageBox.Show("Key set default loaded");
             this.Loaded -= new RoutedEventHandler(KeySetDefault_Loaded);
             keyTranslator = new KeyTranslator(this.LayoutRoot.Children[0] as Keyboard);
             drawer = new LWDrawer(keyTranslator);
-            drawer.RedrawKeyboard();
+
+            lock (drawer)
+            {
+                drawer.RedrawKeyboard();
+            }
 
             // Get the Runtime object
             IAdaptiveRuntime runtime = Application.Current as IAdaptiveRuntime;
@@ -115,10 +123,10 @@ namespace MoodKeyboardContext
             }
             else
             {
-                KeyboardKey key = FindKeyPressed(e.scanCode);
-
                 lock (drawer)
                 {
+                    KeyboardKey key = FindKeyPressed(e.scanCode);
+
                     drawer.KeyPressed(key.Key);
 
                     LWEventData eventData = drawer.TranslateKeyboardKeyToEvent(key.Key);
@@ -140,7 +148,7 @@ namespace MoodKeyboardContext
 
         KeyboardKey FindKeyPressed(int scanCode)
         {
-            Keyboard keyboard = this.LayoutRoot.Children[0] as Keyboard;
+            Keyboard keyboard = keyTranslator.GetKeyboard();
 
             foreach (object item in keyboard.Items)
             {
