@@ -98,6 +98,7 @@ namespace MoodKeyboard
                 String dataStr = enc.GetString(data, 0, data.Length);
                 bool updateImage = keyToPng.HandleKey(LWEventData.Deserialize(dataStr));
                 byte[] cereal = keyToPng.score.currentSliceCereal();
+                Console.WriteLine("Message: " + enc.GetString(cereal, 0, cereal.Length));
                 this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.HIGHLIGHT_KEYS, cereal, (uint) cereal.Length);
 
                 if (updateImage)

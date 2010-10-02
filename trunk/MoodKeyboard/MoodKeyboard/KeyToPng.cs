@@ -126,9 +126,19 @@ namespace MoodKeyboard
                 + "\\key c \\major\n"
                 + "\\time 4/4\n";
 
-            foreach (LPSlice slice in score)
+            for (int i = 0; i < score.Count; i++ )
             {
+                LPSlice slice = score.ElementAt(i);
+
+                if (i == position)
+                {
+                    scoreAsString += "\\override NoteHead #'color = #magenta\n";
+                }
                 scoreAsString += slice.LPSymbol() + "\n";
+                if (i == position)
+                {
+                    scoreAsString += "\\override NoteHead #'color = #black\n";
+                }
             }
 
             scoreAsString += "}\n"
@@ -147,7 +157,26 @@ namespace MoodKeyboard
         {
             bool updateImage = false;
 
-            if (eventData.eventType == LWKeyType.SPACE)
+            /**
+             * Process the control keys (arrows + space) 
+             * */
+            if (eventData.eventType == LWKeyType.ARROW_LEFT)
+            {
+                if (position > 0)
+                {
+                    position--;
+                    updateImage = true;
+                }
+            }
+            else if (eventData.eventType == LWKeyType.ARROW_RIGHT)
+            {
+                if (position < score.Count - 1)
+                {
+                    position++;
+                    updateImage = true;
+                }
+            }
+            else if (eventData.eventType == LWKeyType.SPACE)
             {
                 /* if the current slice is empty, ignore the space */
                 if (currentSlice().isEmpty())
@@ -166,6 +195,9 @@ namespace MoodKeyboard
                 updateImage = true;
             }
 
+            /**
+             * Add the actual data
+             * */
             if (position >= 0 && position < score.Count)
             {
                 score.ElementAt(position).addEventData(eventData);
@@ -351,6 +383,10 @@ namespace MoodKeyboard
                     {
                         n.setDots(dots.dots);
                     }
+                    if (rest != null)
+                    {
+                        rest.setDots(dots.dots);
+                    }
                     return true;
                 default:
                     return false;
@@ -370,8 +406,11 @@ namespace MoodKeyboard
             }
 
             /* if there are notes, add them all! */
-            if (this.notes != null)
+            if (this.notes != null && notes.Count > 0)
             {
+                /* get number of dots */
+                int dots = notes.ElementAt(0).dots;
+                if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
                 foreach (LPNote n in this.notes)
                 {
                     map.Add(new Note(n.value, n.octave), LWKeyType.NOTE);
@@ -380,6 +419,8 @@ namespace MoodKeyboard
             /* or add a rest yo */
             else if (this.rest != null)
             {
+                int dots = rest.dots;
+                if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
                 map.Add(new Rest(), LWKeyType.REST);
             }
 
@@ -436,20 +477,20 @@ namespace MoodKeyboard
             return dots;
         }
 
-        public void setDots(int dots)
+        public void setDots(int dotsCount)
         {
-            if (dots < 0 || dots > 2)
+            if (dotsCount < 0 || dotsCount > 2)
             {
                 return;
             }
 
-            if (dots == this.dots)
+            if (dotsCount == this.dots)
             {
-                dots = 0;
+                this.dots = 0;
             }
             else
             {
-                this.dots = dots;
+                this.dots = dotsCount;
             }
         }
 
@@ -506,6 +547,7 @@ namespace MoodKeyboard
     class LPRest : LPObject
     {
         public int duration;
+        public int dots;
 
         public LPRest(int duration)
         {
@@ -514,6 +556,23 @@ namespace MoodKeyboard
         public string LPSymbol()
         {
             return "r" + duration;
+        }
+
+        public void setDots(int dotsCount)
+        {
+            if (dotsCount < 0 || dotsCount > 2)
+            {
+                return;
+            }
+
+            if (dotsCount == this.dots)
+            {
+                this.dots = 0;
+            }
+            else
+            {
+                this.dots = dotsCount;
+            }
         }
     }
     class LPDynamic : LPObject
