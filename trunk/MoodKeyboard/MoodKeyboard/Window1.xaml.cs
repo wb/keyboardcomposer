@@ -104,11 +104,14 @@ namespace MoodKeyboard
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("painting");
-            byte[] data = new byte[3];  //r,g,b
-            data[0] = 0xFF;
-            data[1] = 0x00;
-            data[2] = 0x00;
-            this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, 5, data, (uint)data.Length);
+            String s = "Images/Chrysanthemum.jpg";
+            Encoding enc = Encoding.UTF8;
+            byte[] data = enc.GetBytes(s);
+            this.adaptiveContextManager.PostContextMessage(
+                this.adaptiveContext,
+                (int)LWMessageID.FROM_APPLICATION,
+                data,
+                (uint)data.Length);
         }       
     }
 
