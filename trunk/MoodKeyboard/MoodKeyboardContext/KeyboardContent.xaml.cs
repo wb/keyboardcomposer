@@ -120,7 +120,10 @@ namespace MoodKeyboardContext
 
                 if (eventData.eventType != LWKeyType.NOT_IMPLEMENTED)
                 {
-                    context.SendMessage((int) LWMessageID.FROM_KEYBOARD, eventData.Serialize());
+                    String s = eventData.Serialize();
+                    Encoding encoder = Encoding.UTF8;
+                    byte[] data = encoder.GetBytes(s);
+                    context.SendMessage((int) LWMessageID.FROM_KEYBOARD, data);
                 }
             }
 
