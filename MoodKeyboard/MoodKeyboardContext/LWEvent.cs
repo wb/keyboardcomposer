@@ -282,7 +282,8 @@ namespace LWEvent
         ALTO,
         BASS,
         PERCUSSION,
-        TABLATURE
+        TABLATURE,
+        NONE
     }
 
     public class ClefSpecific : LWKey
@@ -361,7 +362,8 @@ namespace LWEvent
         MF,
         F,
         FF,
-        FFF
+        FFF,
+        NONE
     }
 
     public enum LWKeyType
