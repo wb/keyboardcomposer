@@ -1,5 +1,0 @@
-C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboardContext.Web\bin\MoodKeyboardContext.Web.dll
-C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboardContext.Web\bin\MoodKeyboardContext.Web.pdb
-C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboardContext.Web\obj\Release\ResolveAssemblyReference.cache
-C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboardContext.Web\obj\Release\MoodKeyboardContext.Web.dll
-C:\Users\nchen\Code\adaptive\MoodKeyboard\MoodKeyboardContext.Web\obj\Release\MoodKeyboardContext.Web.pdb
