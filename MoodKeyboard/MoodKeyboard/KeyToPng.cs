@@ -363,20 +363,24 @@ namespace MoodKeyboard
 
             /* add duration! */
             if (this.notes != null && this.rest != null)
-                map.Add(LWKeyType.INVERSE_DURATION, new InverseDuration(LPScore.defaultDuration));
+            {
+                LWKey key = new InverseDuration(LPScore.defaultDuration);
+                LWKeyType type = LWKeyType.INVERSE_DURATION;
+                map.Add(key, type);
+            }
 
             /* if there are notes, add them all! */
             if (this.notes != null)
             {
                 foreach (LPNote n in this.notes)
                 {
-                    map.Add(LWKeyType.NOTE, new Note(n.value, n.octave));
+                    map.Add(new Note(n.value, n.octave), LWKeyType.NOTE);
                 }
             }
             /* or add a rest yo */
             else if (this.rest != null)
             {
-                map.Add(LWKeyType.REST, new Rest());
+                map.Add(new Rest(), LWKeyType.REST);
             }
 
             return map.Serialize();
