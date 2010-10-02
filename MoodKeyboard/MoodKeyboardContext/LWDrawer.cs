@@ -348,10 +348,10 @@ namespace MoodKeyboardContext
                         SetKeyContentAndColor(key, "Next", normal, "", false);
                         break;
                     case AdaptiveKey.Left:
-                        SetKeyContentAndColor(key, "", normal, "Images/ArrowLeft.png", false);
+                        SetKeyContentAndColor(key, "", normal, "Images/LeftArrow.png", false);
                         break;
                     case AdaptiveKey.Right:
-                        SetKeyContentAndColor(key, "", normal, "Images/ArrowRight.png", false);
+                        SetKeyContentAndColor(key, "", normal, "Images/RightArrow.png", false);
                         break;
                     default:
                         SetKeyContentAndColor(key, "", off, "", false);
