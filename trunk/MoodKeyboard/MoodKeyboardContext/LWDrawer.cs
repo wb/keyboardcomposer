@@ -132,16 +132,16 @@ namespace MoodKeyboardContext
         {
             keysSelectedTable.Clear();
 
-            foreach (KeyValuePair<LWKeyType, LWKey> kvp in map)
+            foreach (KeyValuePair<LWKey, LWKeyType> kvp in map)
             {
-                AdaptiveKey key = keyTranslator.KeyFromLWKey(kvp.Key, kvp.Value);
+                AdaptiveKey key = keyTranslator.KeyFromLWKey(kvp.Value, kvp.Key);
                 keysSelectedTable[key] = true;
-            }
 
-            if (map.ContainsKey(LWKeyType.DYNAMIC))
-            {
-                Dynamic d = map[LWKeyType.DYNAMIC] as Dynamic;
-                currentDynamic.dynamicValue = d.dynamicValue;
+                if (kvp.Value == LWKeyType.DYNAMIC)
+                {
+                    Dynamic d = kvp.Key as Dynamic;
+                    currentDynamic.dynamicValue = d.dynamicValue;
+                }
             }
 
             RedrawKeyboard();
