@@ -14,10 +14,12 @@ using System.Windows.Shapes;
 using System.Windows.Markup;
 using Microsoft.Adaptive;
 using LWEvent;
+using System.ComponentModel;
 
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
+using System.Threading;
 
 
 namespace MoodKeyboard
@@ -30,6 +32,8 @@ namespace MoodKeyboard
         private AdaptiveContextManager adaptiveContextManager;
         private int adaptiveContext;
         private KeyToPng keyToPng;
+        private ThreadedImageRefresher tir;
+        private Thread thread;
 
         public Window1()
         {
@@ -44,7 +48,13 @@ namespace MoodKeyboard
                 return;
 
             LoadAdaptiveContext();
+
+            tir = new ThreadedImageRefresher(this);
+            thread = new Thread(new ThreadStart(tir.ImageReloadThread));
+            thread.IsBackground = true;
+            thread.Start();
         }
+
 
         private bool InitializeAdaptive()
         {
@@ -93,6 +103,8 @@ namespace MoodKeyboard
         {
             if (messageId == (int) LWMessageID.FROM_KEYBOARD)
             {
+                tir.setMessage(messageId + "");
+
                 // Message from the keyboard
                 System.Text.Encoding enc = System.Text.Encoding.UTF8;
                 String dataStr = enc.GetString(data, 0, data.Length);
@@ -103,33 +115,34 @@ namespace MoodKeyboard
 
                 if (updateImage)
                 {
-                    keyToPng.UpdateImage();
-
-                    String s = "C:/tmp/out" + keyToPng.imageVersion + ".png";
-                    Console.WriteLine("Loading image " + s);
-                    data = enc.GetBytes(s);
-
-                    Action<String> DoUpdateImage;
-                    DoUpdateImage = (path) =>
-                    {
-                        Img_Score.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
-                    };
-                    Dispatcher.BeginInvoke(DoUpdateImage, s);
-
-                    this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.CHANGE_PICTURE, data, (uint)data.Length);
+                    tir.RequestImageReload();
                 }
             }
+        }
+
+        public void UpdateImage()
+        {
+            keyToPng.UpdateImage();
+
+            String s = "C:/tmp/out" + keyToPng.imageVersion + ".png";
+            Console.WriteLine("Loading image " + s);
+            System.Text.Encoding enc = System.Text.Encoding.UTF8;
+            byte[] data = enc.GetBytes(s);
+
+            Action<String> DoUpdateImage;
+            DoUpdateImage = (path) =>
+            {
+                Img_Score.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
+            };
+            Dispatcher.BeginInvoke(DoUpdateImage, s);
+
+            this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.CHANGE_PICTURE, data, (uint)data.Length);
         }
 
 
         private void goButton_Click(object sender, RoutedEventArgs e)
         {
-            keyToPng.UpdateImage();
-            String s = "C:/tmp/out" + keyToPng.imageVersion + ".png";
-            Console.WriteLine("Refreshing Image: " + s);
-            Grid grid = this.Content as Grid;
-            Image image = grid.Children[0] as Image;
-            image.Source = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
+            tir.RequestImageReload();
         }
 
         private void Img_Score_ImageFailed(object sender, ExceptionRoutedEventArgs e)
@@ -161,5 +174,48 @@ namespace MoodKeyboard
             // send the message back to the window
             handler.ReceiveMessageFromContext(ctxId, msgId, pbBlob);
         }
+    }
+
+    public class ThreadedImageRefresher
+    {
+        private String message = "hi";
+        private Window1 window;
+        private int count = 0;
+
+        public ThreadedImageRefresher(Window1 window)
+        {
+            this.window = window;
+        }
+
+        public void setMessage(String message)
+        {
+            this.message = message;
+        }
+
+        public void ImageReloadThread()
+        {
+            while (true)
+            {
+                if (count > 0)
+                {
+                    count = 0;
+
+                    Console.WriteLine("Updating image.");
+                    window.UpdateImage();
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
+        }
+
+        public void RequestImageReload()
+        {
+            count++;
+        }
+
+       
+
     }
 }
