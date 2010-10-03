@@ -33,8 +33,9 @@ namespace MoodKeyboard
             tw.Write(score.LPSymbol());
             tw.Flush();
             tw.Close();
-            ExecuteCommand("lilypond -dpreview -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
-            Console.WriteLine("lilypond -dpreview -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly");
+            ExecuteCommand("lilypond -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
+            ExecuteCommand("\"C:/Program Files/ImageMagick-6.6.4-Q16/convert\" -trim -border 8x8 -bordercolor white C:/tmp/out" + (imageVersion + 1) + ".png C:/tmp/out" + (imageVersion + 1) + ".crop.png", 5000);
+            Console.WriteLine("\"C:/Program Files/ImageMagick-6.6.4-Q16/convert\" -trim -border 8x8 -bordercolor white C:/tmp/out" + (imageVersion + 1) + ".png C:/tmp/out" + (imageVersion + 1) + ".crop.png");
             imageVersion++;
         }
 
@@ -63,7 +64,7 @@ namespace MoodKeyboard
             }
             else
             {
-                return "C:/tmp/out" + this.imageVersion + ".png";
+                return "C:/tmp/out" + this.imageVersion + ".crop.png";
             }
         }
     }
