@@ -33,11 +33,8 @@ namespace MoodKeyboard
             tw.Write(score.LPSymbol());
             tw.Flush();
             tw.Close();
-            //ExecuteCommand("lilypond -fpng -o ../MoodKeyboardContext/Images/out in.ly", 5000);
-
             ExecuteCommand("lilypond -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly", 5000);
             Console.WriteLine("lilypond -fpng -o C:/tmp/out" + (imageVersion + 1) + " in.ly");
-
             imageVersion++;
         }
 
