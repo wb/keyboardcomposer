@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using LWEvent;
+using LWContextCommunication;
 using System.Diagnostics;
 
 namespace MoodKeyboard
@@ -18,7 +18,7 @@ namespace MoodKeyboard
             score = new LPScore();
         }
 
-        public bool HandleKey(LWEventData eventData)
+        public bool HandleKey(LWKeyEvent eventData)
         {
              
             /* add event data */
@@ -140,14 +140,14 @@ namespace MoodKeyboard
 
         }
 
-        public bool addEventData(LWEventData eventData)
+        public bool addEventData(LWKeyEvent eventData)
         {
             bool updateImage = false;
 
             /**
              * Process the control keys (arrows + space) 
              * */
-            if (eventData.eventType == LWKeyType.ARROW_LEFT)
+            if (eventData.keyType == LWKeyType.ARROW_LEFT)
             {
                 if (position > 0)
                 {
@@ -155,7 +155,7 @@ namespace MoodKeyboard
                     updateImage = true;
                 }
             }
-            else if (eventData.eventType == LWKeyType.ARROW_RIGHT)
+            else if (eventData.keyType == LWKeyType.ARROW_RIGHT)
             {
                 if (position < score.Count - 1)
                 {
@@ -163,7 +163,7 @@ namespace MoodKeyboard
                     updateImage = true;
                 }
             }
-            else if (eventData.eventType == LWKeyType.SPACE)
+            else if (eventData.keyType == LWKeyType.SPACE)
             {
                 /* if the current slice is empty, ignore the space */
                 if (currentSlice().isEmpty())
@@ -254,9 +254,9 @@ namespace MoodKeyboard
             return symbols;
         }
 
-        public Boolean addEventData(LWEventData eventData)
+        public Boolean addEventData(LWKeyEvent eventData)
         {
-            switch (eventData.eventType)
+            switch (eventData.keyType)
             {
                 /* Rules:
                  * 1) If this note already exists, remove it from the list.

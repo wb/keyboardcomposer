@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
-using LWEvent;
+using LWContextCommunication;
 using Adaptive.ControlsLibrary;
 using System.Collections.Generic;
 using Adaptive.Interfaces;
@@ -563,7 +563,7 @@ namespace MoodKeyboardContext
             return false;
         }
 
-        public LWEventData TranslateKeyboardKeyToEvent(AdaptiveKey key)
+        public LWKeyEvent TranslateKeyboardKeyToEvent(AdaptiveKey key)
         {
             LWKey eventKey = new None();
             LWKeyType type = LWKeyType.NOT_IMPLEMENTED;
@@ -687,7 +687,7 @@ namespace MoodKeyboardContext
                 }
             }
 
-            LWEventData eventData = new LWEventData(eventKey, type);
+            LWKeyEvent eventData = new LWKeyEvent(eventKey, type);
             return eventData;
         }
 

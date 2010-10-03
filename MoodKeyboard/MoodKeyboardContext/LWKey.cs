@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LWEvent
+namespace LWContextCommunication
 {
     public abstract class LWKey
     {
@@ -69,6 +69,8 @@ namespace LWEvent
     public class Clef : LWKey { };
 
     public class Space : LWKey { };
+
+    public class Delete : LWKey { };
 
     public class Dots : LWKey
     {

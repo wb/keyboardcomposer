@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Markup;
 using Microsoft.Adaptive;
-using LWEvent;
+using LWContextCommunication;
 using System.ComponentModel;
 
 using System.IO;
@@ -108,7 +108,7 @@ namespace MoodKeyboard
                 // Message from the keyboard
                 System.Text.Encoding enc = System.Text.Encoding.UTF8;
                 String dataStr = enc.GetString(data, 0, data.Length);
-                bool updateImage = keyToPng.HandleKey(LWEventData.Deserialize(dataStr));
+                bool updateImage = keyToPng.HandleKey(LWKeyEvent.Deserialize(dataStr));
                 byte[] cereal = keyToPng.score.currentSliceCereal();
                 Console.WriteLine("Message: " + enc.GetString(cereal, 0, cereal.Length));
                 this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.HIGHLIGHT_KEYS, cereal, (uint) cereal.Length);

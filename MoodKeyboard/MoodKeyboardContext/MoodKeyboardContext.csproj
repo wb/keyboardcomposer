@@ -76,11 +76,11 @@
     </Compile>
     <Compile Include="KeyTranslator.cs" />
     <Compile Include="LWDrawer.cs" />
-    <Compile Include="LWEvent.cs" />
+    <Compile Include="LWContextCommunication.cs" />
     <Compile Include="KeyboardContent.xaml.cs">
       <DependentUpon>KeyboardContent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LWEventData.cs" />
+    <Compile Include="LWKeyEvent.cs" />
     <Compile Include="LWKey.cs" />
     <Compile Include="LWTouchPoint.cs" />
     <Compile Include="MainPage.xaml.cs">
