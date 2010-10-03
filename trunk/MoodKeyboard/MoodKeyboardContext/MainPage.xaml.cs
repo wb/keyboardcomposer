@@ -9,7 +9,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Adaptive.Interfaces;
 
-using LWEvent;
+using LWContextCommunication;
 using System.Text;
 using System.IO;
 

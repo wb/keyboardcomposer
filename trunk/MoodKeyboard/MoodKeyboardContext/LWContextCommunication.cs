@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LWEvent
+namespace LWContextCommunication
 {
     public enum NoteValue
     {
@@ -59,6 +59,7 @@ namespace LWEvent
         DECRESCENDO,
         ARROW_LEFT,
         ARROW_RIGHT,
+        DELETE,
         NOT_IMPLEMENTED
     };
 

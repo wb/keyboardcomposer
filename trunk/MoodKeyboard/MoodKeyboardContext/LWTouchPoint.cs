@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace LWEvent
+namespace LWContextCommunication
 {
     public class LWTouchPoint
     {

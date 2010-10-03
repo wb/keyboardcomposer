@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using Adaptive.ControlsLibrary;
 using Adaptive.Interfaces;
 using Keyboard = Adaptive.ControlsLibrary.Keyboard;
-using LWEvent;
+using LWContextCommunication;
 
 using System.IO;
 using System.Runtime.Serialization;
@@ -129,9 +129,9 @@ namespace MoodKeyboardContext
 
                     drawer.KeyPressed(key.Key);
 
-                    LWEventData eventData = drawer.TranslateKeyboardKeyToEvent(key.Key);
+                    LWKeyEvent eventData = drawer.TranslateKeyboardKeyToEvent(key.Key);
 
-                    if (eventData.eventType != LWKeyType.NOT_IMPLEMENTED)
+                    if (eventData.keyType != LWKeyType.NOT_IMPLEMENTED)
                     {
                         String s = eventData.Serialize();
                         Encoding encoder = Encoding.UTF8;
