@@ -15,6 +15,7 @@ using System.Windows.Markup;
 using Microsoft.Adaptive;
 using LWContextCommunication;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 using System.IO;
 using System.Runtime.Serialization;
@@ -122,6 +123,14 @@ namespace MoodKeyboard
 
         public void UpdateImage()
         {
+
+            Action<String > DoUpdateText;
+            DoUpdateText = (text) =>
+            {
+                Feedback.Text = text;
+            };
+            Dispatcher.BeginInvoke(DoUpdateText, "Rendering score...");
+
             keyToPng.UpdateImage();
 
             String s = keyToPng.getCurrentImageURI();
@@ -135,19 +144,43 @@ namespace MoodKeyboard
                 Img_Score.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
             };
             Dispatcher.BeginInvoke(DoUpdateImage, s);
+            Dispatcher.BeginInvoke(DoUpdateText, "");
 
             this.adaptiveContextManager.PostContextMessage(this.adaptiveContext, (int)LWMessageID.CHANGE_PICTURE, data, (uint)data.Length);
-        }
-
-
-        private void goButton_Click(object sender, RoutedEventArgs e)
-        {
-            tir.RequestImageReload();
         }
 
         private void Img_Score_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             Console.WriteLine("Image failed to load into main window.");
+        }
+
+        private void LWLoad_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFile1 = new OpenFileDialog();
+
+            // Initialize the OpenFileDialog to look for text files.
+            openFile1.Filter = "Lilypond Files|*.ly";
+
+            // Check if the user selected a file from the OpenFileDialog.
+            if (openFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Console.WriteLine("Opening " + openFile1.FileName);
+                // TODO
+            }
+        }
+
+        private void LWSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFile1 = new SaveFileDialog();
+
+            saveFile1.Filter = "Lilypond Files|*.ly";
+
+            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Feedback.Text = "Saved";
+                // TODO
+                Console.WriteLine("Saved file to " + saveFile1.FileName);
+            }
         }       
     }
 

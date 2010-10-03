@@ -4,7 +4,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
     <Canvas x:Name="LayoutRoot" Margin="10" Background="Black">
-        <Image x:Name="spectrum" Source="Images/touch_spectrum.png" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Ellipse x:Name="touchIndicator" Height="25" Width="25" Canvas.Left="0" Canvas.Top="0" StrokeThickness="2" Stroke="White"/>
+        <Image x:Name="spectrum" 
+               Source="Images/touch_spectrum.png" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Bottom"
+               Width="1366"
+               />
     </Canvas>
 </UserControl>

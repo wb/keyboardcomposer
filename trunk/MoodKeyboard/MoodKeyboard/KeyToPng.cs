@@ -60,7 +60,8 @@ namespace MoodKeyboard
         {
             if (score.isEmpty())
             {
-                return "C:/Users/Walter/Documents/KeyboardComposer/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
+                return "C:/Users/Laura/Documents/Visual Studio/Projects/MoodKeyboard/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
+                //return "C:/Users/Walter/Documents/KeyboardComposer/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
             }
             else
             {

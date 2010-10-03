@@ -1,11 +1,23 @@
 ﻿<Window x:Class="MoodKeyboard.Window1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Window1" Height="700" Width="600">
+    Title="Window1" Height="700" Width="550">
     <Grid>
+        <Menu Name="LWMenu" Height="25" Width="550" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <MenuItem Header="File" Name="LWFile">
+                <MenuItem Header="Open..." Name="LWLoad" Click="LWLoad_Click"></MenuItem>
+                <MenuItem Header="Save..." Name="LWSave" Click="LWSave_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <ScrollViewer Height="600" Width="525" VerticalScrollBarVisibility="Auto">
         <Image Name="Img_Score" 
-               Source="C:\Users\Walter\Documents\KeyboardComposer\MoodKeyboard\MoodKeyboardContext\Images\blankScore.png" 
-               Width="500" Height="650" HorizontalAlignment="Center" VerticalAlignment="Top" ImageFailed="Img_Score_ImageFailed"></Image>
-        <Button ClickMode="Hover" IsTabStop="False" Height="23" Width="80" Margin="99,0,104,12" Name="goButton" VerticalAlignment="Bottom" Click="goButton_Click">Refresh</Button>
+               Source="" 
+               Width="500"
+               HorizontalAlignment="Center" VerticalAlignment="Top" 
+               ImageFailed="Img_Score_ImageFailed"></Image>
+        </ScrollViewer>
+        
+        <TextBlock Height="25" Padding="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Name="Feedback"></TextBlock>
     </Grid>
 </Window>
