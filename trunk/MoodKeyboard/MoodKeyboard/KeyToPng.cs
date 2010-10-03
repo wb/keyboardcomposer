@@ -22,7 +22,7 @@ namespace MoodKeyboard
         {
              
             /* add event data */
-            return score.addEventData(eventData);
+            return true | score.addEventData(eventData); /* make it return true everytime for now */
 
         }
 
@@ -54,6 +54,18 @@ namespace MoodKeyboard
 
             return ExitCode;
         }
+
+        public String getCurrentImageURI()
+        {
+            if (score.isEmpty())
+            {
+                return "C:/Users/Walter/Documents/KeyboardComposer/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
+            }
+            else
+            {
+                return "C:/tmp/out" + this.imageVersion + ".png";
+            }
+        }
     }
 
     interface LPObject
@@ -70,6 +82,9 @@ namespace MoodKeyboard
 
         /* store (de)crescendo toggle state */
         public static LPCrescendo crescendoState = LPCrescendo.none;
+
+        /* store slur toggle state */
+        public static LPSlur slurState = LPSlur.slurNone;
 
         public LPScore()
         {
@@ -144,6 +159,9 @@ namespace MoodKeyboard
         {
             bool updateImage = false;
 
+            int beforePosition = position;
+
+
             /**
              * Process the control keys (arrows + space) 
              * */
@@ -181,6 +199,99 @@ namespace MoodKeyboard
 
                 updateImage = true;
             }
+            else if (eventData.keyType == LWKeyType.DELETE)
+            {
+                this.deleteCurrent();
+                updateImage = true;
+
+            }
+            else if (eventData.keyType == LWKeyType.SLUR)
+            {
+                List<LPNote> notes = score.ElementAt(position).notes;
+
+                if (notes.Count > 0)
+                {
+
+                    bool deleteEnding = false;
+
+                    foreach (LPNote n in notes)
+                    {
+                        /* start a slur */
+                        if (LPScore.slurState == LPSlur.slurNone && n.openSlur == LPSlur.slurNone)
+                        {
+                            n.openSlur = LPSlur.slurOpen;
+                        }
+
+                        /* delete a slur */
+                        if (LPScore.slurState == LPSlur.slurEnabled && n.openSlur == LPSlur.slurOpen)
+                        {
+                            n.openSlur = LPSlur.slurNone;
+
+                            /* also delete matching ending */
+                            deleteEnding = true;
+                        }
+
+                        if (LPScore.slurState == LPSlur.slurEnabled && n.openSlur == LPSlur.slurNone)
+                        {
+                            n.closeSlur = LPSlur.slurClose;
+                        }
+                    }
+
+                    if (deleteEnding)
+                    {
+                        /* first, find the ending (that is, the first with a closing slur) */
+                        for (int i = position + 1; i < score.Count; i++)
+                        {
+                            List<LPNote> theNotes = score.ElementAt(i).notes;
+
+                            if (theNotes.Count > 0 && theNotes.ElementAt(0).closeSlur == LPSlur.slurClose)
+                            {
+                                foreach (LPNote theNote in theNotes)
+                                {
+                                    theNote.closeSlur = LPSlur.slurNone;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    LPNote firstNote = notes.ElementAt(0);
+
+                    if (firstNote.openSlur == LPSlur.slurOpen)
+                    {
+                        LPScore.slurState = LPSlur.slurEnabled;
+                    }
+                    else
+                    {
+                        LPScore.slurState = LPSlur.slurNone;
+                    }
+
+                }
+            }
+
+            if (beforePosition != position)
+            {
+                /* check to see if a slur is open */
+                for (int i = position; i >= 0; i--)
+                {
+                    List<LPNote> theNotes = score.ElementAt(i).notes;
+
+                    if (theNotes != null && theNotes.Count > 0)
+                    {
+                        if (theNotes.ElementAt(0).openSlur == LPSlur.slurOpen)
+                        {
+                            LPScore.slurState = LPSlur.slurEnabled;
+                            break;
+                        }
+                        else if (theNotes.ElementAt(0).closeSlur == LPSlur.slurClose)
+                        {
+                            LPScore.slurState = LPSlur.slurNone;
+                            break;
+                        }
+                    }
+                }
+            }
 
             /**
              * Add the actual data
@@ -188,6 +299,11 @@ namespace MoodKeyboard
             if (position >= 0 && position < score.Count)
             {
                 score.ElementAt(position).addEventData(eventData);
+
+                if ((eventData.keyType == LWKeyType.NOTE || eventData.keyType == LWKeyType.REST) && score.ElementAt(position).isEmpty())
+                {
+                    this.deleteCurrent();
+                }
             }
             else
             {
@@ -195,6 +311,33 @@ namespace MoodKeyboard
             }
 
             return updateImage;
+        }
+
+        private void deleteCurrent()
+        {
+            /* remove the current position from the array */
+            score.RemoveAt(position);
+            Console.WriteLine("Removing note at position " + position);
+
+            /* make sure we are pointing to something valid */
+            if (position >= score.Count)
+            {
+                position = score.Count - 1;
+                Console.WriteLine("Updated position to be at " + position);
+            }
+
+            if (position == -1)
+            {
+                position = 0;
+            }
+
+            /* if there is nothing left, add a blank one */
+            if (score.Count == 0)
+            {
+                score.Add(new LPSlice());
+                Console.WriteLine("Whoops! Can't have an empty score.  Adding a new blank measure.");
+            }
+
         }
 
         private LPSlice currentSlice()
@@ -206,14 +349,19 @@ namespace MoodKeyboard
         {
             return score.ElementAt(position).Serialize();
         }
+
+        public Boolean isEmpty()
+        {
+            return (score.Count == 0 || (score.Count == 1 && score.ElementAt(0).isEmpty()));
+        }
     }
     class LPSlice : LPObject
     {
 
-        private List<LPNote> notes;
-        private LPRest rest;
-        private LPDynamic dynamic;
-        private LPCrescendo crescendo = LPCrescendo.none;
+        public List<LPNote> notes;
+        public LPRest rest;
+        public LPDynamic dynamic;
+        public LPCrescendo crescendo = LPCrescendo.none;
 
         public LPSlice()
         {
@@ -240,6 +388,16 @@ namespace MoodKeyboard
                 symbols += ">";
                 symbols += notes.ElementAt(0).duration;
                 symbols += notes.ElementAt(0).dotsToString();
+
+                if (notes.ElementAt(0).openSlur == LPSlur.slurOpen)
+                {
+                    symbols += "(";
+                }
+
+                if (notes.ElementAt(0).closeSlur == LPSlur.slurClose)
+                {
+                    symbols += ")";
+                }
             }
             else if (rest != null)
             {
@@ -250,7 +408,7 @@ namespace MoodKeyboard
             {
                 symbols += " " + dynamic.LPSymbol() + " ";
             }
-
+           
             return symbols;
         }
 
@@ -347,23 +505,7 @@ namespace MoodKeyboard
                         dynamic = lpD;
                     }
                     return true;
-                case LWKeyType.CRESCENDO:
-                    /* if there is currently no (de)crescendo going on, life is easy */
-                    if (LPScore.crescendoState == LPCrescendo.none)
-                    {
-                        this.crescendo = LPCrescendo.crescendoOpen;
-                        LPScore.crescendoState = LPCrescendo.crescendoEnabled;
-                    }
-                    else if (LPScore.crescendoState == LPCrescendo.crescendoEnabled)
-                    {
-                        this.crescendo = LPCrescendo.crescendoClose;
-                        LPScore.crescendoState = LPCrescendo.none;
-                    }
-                    else if (LPScore.crescendoState == LPCrescendo.decrescendoEnabled)
-                    {
 
-                    }
-                    return true;
                 case LWKeyType.DOTS:
                     Dots dots = eventData.key as Dots;
                     foreach(LPNote n in notes)
@@ -411,6 +553,21 @@ namespace MoodKeyboard
                 map.Add(new Rest(), LWKeyType.REST);
             }
 
+            /* add a dynamic */
+            if (this.dynamic != null)
+            {
+                map.Add(new Dynamic(dynamic.dynamic), LWKeyType.DYNAMIC);
+            }
+
+            /* and slur */
+
+            /* but first we have to check if slur should be enabled */
+
+            if (LPScore.slurState == LPSlur.slurEnabled)
+            {
+                map.Add(new Slur(), LWKeyType.SLUR);
+            }
+
             if (map.Count == 0)
             {
                 map.Add(new None(), LWKeyType.NOT_IMPLEMENTED);
@@ -425,6 +582,8 @@ namespace MoodKeyboard
         public int octave;
         public int duration;
         public int dots;
+        public LPSlur openSlur = LPSlur.slurNone;
+        public LPSlur closeSlur = LPSlur.slurNone;
 
         public LPNote(NoteValue value, int octave, int duration)
         {
@@ -535,6 +694,7 @@ namespace MoodKeyboard
                 return (this.value == n.value && this.octave == n.octave && this.duration == n.duration);
             }
         }
+
     }
     class LPRest : LPObject
     {
@@ -621,5 +781,9 @@ namespace MoodKeyboard
     enum LPCrescendo
     {
         crescendoOpen, crescendoClose, decrescendoOpen, decrescendoClose, none, crescendoEnabled, decrescendoEnabled
+    }
+    enum LPSlur
+    {
+        slurOpen, slurClose, slurEnabled, slurNone
     }
 }
