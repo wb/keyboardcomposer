@@ -25,6 +25,7 @@ namespace MoodKeyboardContext
         private BitmapImage bmi = null;
         private MultiScaleImage msi = null;
         private int xOffset = 0;
+        private int yOffset = 0;
         private Point oldTouchPoint;
 
         private static int touchpadWidth = 1366;
@@ -34,60 +35,61 @@ namespace MoodKeyboardContext
         {
             InitializeComponent();
             
-            this.touchIndicator.Visibility = Visibility.Collapsed;
             this.MouseLeftButtonDown += new MouseButtonEventHandler(MainPage_MouseLeftButtonDown);
             this.MouseMove += new MouseEventHandler(MainPage_MouseMove);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(MainPage_MouseLeftButtonUp);
 
             // spectrum.Height, (int)spectrum.Width
             bmi = new BitmapImage(new Uri("Images/samplemusic.png", UriKind.Relative));
-            bmi.ImageOpened += new EventHandler<RoutedEventArgs>(bmi_ImageOpened);
+            //bmi.ImageOpened += new EventHandler<RoutedEventArgs>(bmi_ImageOpened);
 
             this.spectrum.Source = bmi;
         }
 
-        void bmi_ImageOpened(object sender, RoutedEventArgs e)
-        {
-            bmSrc = new WriteableBitmap(bmi);
+        //void bmi_ImageOpened(object sender, RoutedEventArgs e)
+        //{
+        //    bmSrc = new WriteableBitmap(bmi);
 
-            bmDst = new WriteableBitmap(touchpadWidth, touchpadHeight);
+        //    bmDst = new WriteableBitmap(touchpadWidth, touchpadHeight);
 
-            ResetDst(0);
+        //    ResetDst(0);
 
-            this.spectrum.Source = bmDst;
-        }
+        //    this.spectrum.Source = bmDst;
+        //}
 
-        void ResetDst(int xDiff)
-        {
-            xOffset = xOffset + xDiff;
-            if (xOffset < 0) xOffset = 0;
-            if (xOffset > bmSrc.PixelWidth - bmDst.PixelWidth - 1) xOffset = bmSrc.PixelWidth - bmDst.PixelWidth - 1;
+        //void ResetDst(int yDiff)
+        //{
+        //    yOffset = yOffset + yDiff;
+        //    if (bmSrc.PixelHeight > 
+        //    xOffset = xOffset + xDiff;
+        //    if (xOffset < 0) xOffset = 0;
+        //    if (xOffset > bmSrc.PixelWidth - bmDst.PixelWidth - 1) xOffset = bmSrc.PixelWidth - bmDst.PixelWidth - 1;
 
-            int[] pixelsDst = bmDst.Pixels;
-            int[] pixelsSrc = bmSrc.Pixels;
+        //    int[] pixelsDst = bmDst.Pixels;
+        //    int[] pixelsSrc = bmSrc.Pixels;
 
-            //MessageBox.Show(String.Format("dst len {0:N} src len {1:N}", pixelsDst.Length, pixelsSrc.Length));
+        //    //MessageBox.Show(String.Format("dst len {0:N} src len {1:N}", pixelsDst.Length, pixelsSrc.Length));
 
-            for (int i = 0; i < touchpadHeight; i++)
-            {
-                for (int j = xOffset, jj = 0; jj < touchpadWidth; j++, jj ++)
-                {
-                    if (i * bmDst.PixelWidth + jj > pixelsDst.Length)
-                        MessageBox.Show(String.Format("{0:N} and {1:N} too big for dst", i, jj));
-                    if (i * bmSrc.PixelWidth + j > pixelsSrc.Length)
-                        MessageBox.Show(String.Format("{0:N} and {1:N} too big for src", i, j));
-                    pixelsDst[i * bmDst.PixelWidth + jj] = pixelsSrc[i * bmSrc.PixelWidth + j];
-                }
-            }
+        //    for (int i = 0; i < touchpadHeight; i++)
+        //    {
+        //        for (int j = xOffset, jj = 0; jj < touchpadWidth; j++, jj ++)
+        //        {
+        //            if (i * bmDst.PixelWidth + jj > pixelsDst.Length)
+        //                MessageBox.Show(String.Format("{0:N} and {1:N} too big for dst", i, jj));
+        //            if (i * bmSrc.PixelWidth + j > pixelsSrc.Length)
+        //                MessageBox.Show(String.Format("{0:N} and {1:N} too big for src", i, j));
+        //            pixelsDst[i * bmDst.PixelWidth + jj] = pixelsSrc[i * bmSrc.PixelWidth + j];
+        //        }
+        //    }
 
-            bmDst.Invalidate();
-        }
+        //    bmDst.Invalidate();
+        //}
         
         void MainPage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             touching = false;
             Point p = e.GetPosition(null);
-            ResetDst((int)(oldTouchPoint.X - p.X));
+            //ResetDst((int)(oldTouchPoint.X - p.X));
 
             LWTouchPoint tp = new LWTouchPoint(p.X, p.Y);
             Encoding encoder = Encoding.UTF8;
@@ -117,10 +119,6 @@ namespace MoodKeyboardContext
         void MainPage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             touching = true;
-            if (this.touchIndicator.Visibility != Visibility.Visible)
-            {
-                this.touchIndicator.Visibility = Visibility.Visible;
-            }
             oldTouchPoint = e.GetPosition(null);
         }
 
@@ -133,12 +131,23 @@ namespace MoodKeyboardContext
                 {
                     Encoding enc = Encoding.UTF8;
                     String s = enc.GetString(e.messageData, 0, e.messageData.Length);
-                    BitmapImage im = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
-                    this.spectrum.Source = im;
-                    this.InvalidateArrange();
+                    bmi = new BitmapImage(new Uri(s, UriKind.RelativeOrAbsolute));
+                    bmi.ImageOpened += new EventHandler<RoutedEventArgs>(bi_ImageOpened);
+                    this.spectrum.Source = bmi;
                 }
             }
         }
+
+        void bi_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            bmi.ImageOpened -= new EventHandler<RoutedEventArgs>(bi_ImageOpened);
+            TranslateTransform tt = new TranslateTransform();
+            tt.Y = -bmi.PixelHeight*touchpadWidth/bmi.PixelWidth + touchpadHeight;
+            //MessageBox.Show(String.Format("{0:G} {1:G}", tt.Y, bmi.PixelHeight));
+            this.spectrum.RenderTransform = tt;
+            this.InvalidateArrange();
+        }
+
 
         public void SetMessagingObject(IAdaptiveContextMessaging context)
         {

@@ -118,6 +118,8 @@ namespace MoodKeyboardContext
         /// <param name="e"></param>
         void runtime_KeyPressed(object sender, KeyPressEventArgs e)
         {
+            bool willSelect = false;
+
             if (e.fKeyUp)
             {
             }
@@ -127,8 +129,9 @@ namespace MoodKeyboardContext
                 {
                     KeyboardKey key = FindKeyPressed(e.scanCode);
 
-                    drawer.KeyPressed(key.Key);
+                    willSelect = (key.Key == AdaptiveKey.Space || key.Key == AdaptiveKey.Enter);
 
+                    drawer.KeyPressed(key.Key);
                     LWKeyEvent eventData = drawer.TranslateKeyboardKeyToEvent(key.Key);
 
                     if (eventData.keyType != LWKeyType.NOT_IMPLEMENTED)
@@ -141,9 +144,12 @@ namespace MoodKeyboardContext
                 }
             }
 
-            // Here we simply forward this information to the Keyboard handler
-            // Although one could preprocess/postprocess the events as well
-            keyboardHandler.KbdEvent(e.fKeyUp, (byte)e.scanCode);
+            if (!willSelect)
+            {
+                // Here we simply forward this information to the Keyboard handler
+                // Although one could preprocess/postprocess the events as well
+                keyboardHandler.KbdEvent(e.fKeyUp, (byte)e.scanCode);
+            }
         }
 
         KeyboardKey FindKeyPressed(int scanCode)
