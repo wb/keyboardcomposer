@@ -391,8 +391,11 @@ namespace MoodKeyboardContext
                     case AdaptiveKey.Right:
                         SetKeyContentAndColor(key, "", normal, "Images/RightArrow.png", false);
                         break;
+                    case AdaptiveKey.Delete:
+                        SetKeyContentAndColor(key, "Remove selected", normal, "", false);
+                        break;
                     default:
-                        SetKeyContentAndColor(key, "", test, "", false);
+                        SetKeyContentAndColor(key, "", off, "", false);
                         break;
                 }
             }
@@ -612,6 +615,10 @@ namespace MoodKeyboardContext
                     case AdaptiveKey.Right:
                         eventKey = new ArrowRight();
                         type = LWKeyType.ARROW_RIGHT;
+                        break;
+                    case AdaptiveKey.Delete:
+                        eventKey = new Delete();
+                        type = LWKeyType.DELETE;
                         break;
                     default:
                         switch (mode)
