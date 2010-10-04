@@ -24,12 +24,14 @@ namespace MoodKeyboardContext
         private System.Windows.Media.Imaging.WriteableBitmap bmDst = null;
         private BitmapImage bmi = null;
         private MultiScaleImage msi = null;
-        private int xOffset = 0;
-        private int yOffset = 0;
         private Point oldTouchPoint;
 
         private static int touchpadWidth = 1366;
         private static int touchpadHeight = 216;
+        private double baseHeight = 0;
+        private double yOffset = 0;
+        private TranslateTransform tt;
+        private int framesSinceUpdate = 0;
 
         public MainPage()
         {
@@ -39,86 +41,68 @@ namespace MoodKeyboardContext
             this.MouseMove += new MouseEventHandler(MainPage_MouseMove);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(MainPage_MouseLeftButtonUp);
 
-            // spectrum.Height, (int)spectrum.Width
-            bmi = new BitmapImage(new Uri("Images/samplemusic.png", UriKind.Relative));
-            //bmi.ImageOpened += new EventHandler<RoutedEventArgs>(bmi_ImageOpened);
+            bmi = new BitmapImage(new Uri("Images/blankScore.png", UriKind.Relative));
+            bmi.ImageOpened += new EventHandler<RoutedEventArgs>(bmi_ImageOpened);
 
             this.spectrum.Source = bmi;
         }
 
-        //void bmi_ImageOpened(object sender, RoutedEventArgs e)
-        //{
-        //    bmSrc = new WriteableBitmap(bmi);
+        public void bmi_ImageOpened(Object sender, RoutedEventArgs e)
+        {
+            tt = new TranslateTransform();
+            bmi.ImageOpened -= new EventHandler<RoutedEventArgs>(bi_ImageOpened);
+            baseHeight = -bmi.PixelHeight * touchpadWidth / bmi.PixelWidth + touchpadHeight;
+            tt.Y = baseHeight;
+            this.spectrum.RenderTransform = tt;
+            this.InvalidateArrange();
+        }
 
-        //    bmDst = new WriteableBitmap(touchpadWidth, touchpadHeight);
-
-        //    ResetDst(0);
-
-        //    this.spectrum.Source = bmDst;
-        //}
-
-        //void ResetDst(int yDiff)
-        //{
-        //    yOffset = yOffset + yDiff;
-        //    if (bmSrc.PixelHeight > 
-        //    xOffset = xOffset + xDiff;
-        //    if (xOffset < 0) xOffset = 0;
-        //    if (xOffset > bmSrc.PixelWidth - bmDst.PixelWidth - 1) xOffset = bmSrc.PixelWidth - bmDst.PixelWidth - 1;
-
-        //    int[] pixelsDst = bmDst.Pixels;
-        //    int[] pixelsSrc = bmSrc.Pixels;
-
-        //    //MessageBox.Show(String.Format("dst len {0:N} src len {1:N}", pixelsDst.Length, pixelsSrc.Length));
-
-        //    for (int i = 0; i < touchpadHeight; i++)
-        //    {
-        //        for (int j = xOffset, jj = 0; jj < touchpadWidth; j++, jj ++)
-        //        {
-        //            if (i * bmDst.PixelWidth + jj > pixelsDst.Length)
-        //                MessageBox.Show(String.Format("{0:N} and {1:N} too big for dst", i, jj));
-        //            if (i * bmSrc.PixelWidth + j > pixelsSrc.Length)
-        //                MessageBox.Show(String.Format("{0:N} and {1:N} too big for src", i, j));
-        //            pixelsDst[i * bmDst.PixelWidth + jj] = pixelsSrc[i * bmSrc.PixelWidth + j];
-        //        }
-        //    }
-
-        //    bmDst.Invalidate();
-        //}
-        
         void MainPage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             touching = false;
             Point p = e.GetPosition(null);
-            //ResetDst((int)(oldTouchPoint.X - p.X));
+            int yDiff = (int)(oldTouchPoint.Y - p.Y);
 
-            LWTouchPoint tp = new LWTouchPoint(p.X, p.Y);
-            Encoding encoder = Encoding.UTF8;
-            byte[] data = encoder.GetBytes(tp.Serialize());
+            tt.Y = tt.Y - yDiff;
+            tt.Y = Math.Min(tt.Y, 0);
+            tt.Y = Math.Max(tt.Y, baseHeight);
 
-            context.SendMessage((int) LWMessageID.FROM_TOUCHPAD, data);
+            yOffset = tt.Y - baseHeight;
+
+            this.spectrum.RenderTransform = tt;
         }
 
         void MainPage_MouseMove(object sender, MouseEventArgs e)
         {
-            //if (touching)
-            //{
-            //    Point p = e.GetPosition(null);
+            if (touching)
+            {
+                Point p = e.GetPosition(null);
+                double yDiff = oldTouchPoint.Y - p.Y;
 
-            //    ResetDst((int)(oldTouchPoint.X - p.X));
+                if (framesSinceUpdate > 3)
+                {
+                    framesSinceUpdate = 0;
+                    oldTouchPoint = p;
 
-            //    double newX = p.X - 20;
-            //    double newY = p.Y - 20;
+                    tt.Y = tt.Y - yDiff;
+                    tt.Y = Math.Min(tt.Y, 0);
+                    tt.Y = Math.Max(tt.Y, baseHeight);
 
-            //    this.touchIndicator.SetValue(Canvas.LeftProperty, newX);
-            //    this.touchIndicator.SetValue(Canvas.TopProperty, newY);
+                    yOffset = tt.Y - baseHeight;
 
-                
-            //}
+                    this.spectrum.RenderTransform = tt;
+                }
+                else
+                {
+                    framesSinceUpdate++;
+                }
+            }
         }
 
         void MainPage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             touching = true;
+            framesSinceUpdate = 0;
             oldTouchPoint = e.GetPosition(null);
         }
 
@@ -141,9 +125,11 @@ namespace MoodKeyboardContext
         void bi_ImageOpened(object sender, RoutedEventArgs e)
         {
             bmi.ImageOpened -= new EventHandler<RoutedEventArgs>(bi_ImageOpened);
-            TranslateTransform tt = new TranslateTransform();
-            tt.Y = -bmi.PixelHeight*touchpadWidth/bmi.PixelWidth + touchpadHeight;
-            //MessageBox.Show(String.Format("{0:G} {1:G}", tt.Y, bmi.PixelHeight));
+            double yDiff = tt.Y - baseHeight;
+            baseHeight = -bmi.PixelHeight * touchpadWidth / bmi.PixelWidth + touchpadHeight;
+            tt.Y = baseHeight + yDiff;
+            tt.Y = Math.Min(tt.Y, 0);
+            tt.Y = Math.Max(tt.Y, baseHeight);
             this.spectrum.RenderTransform = tt;
             this.InvalidateArrange();
         }

@@ -5,14 +5,13 @@
     <Grid>
         <Menu Name="LWMenu" Height="25" Width="550" VerticalAlignment="Top" HorizontalAlignment="Left">
             <MenuItem Header="File" Name="LWFile">
-                <MenuItem Header="Open..." Name="LWLoad" Click="LWLoad_Click"></MenuItem>
                 <MenuItem Header="Save..." Name="LWSave" Click="LWSave_Click"></MenuItem>
             </MenuItem>
         </Menu>
         
         <ScrollViewer Height="600" Width="525" VerticalScrollBarVisibility="Auto">
         <Image Name="Img_Score" 
-               Source="" 
+               Source="C:/Users/Laura/Documents/Visual Studio 2008/Projects/MoodKeyboard/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png" 
                Width="500"
                HorizontalAlignment="Center" VerticalAlignment="Top" 
                ImageFailed="Img_Score_ImageFailed"></Image>

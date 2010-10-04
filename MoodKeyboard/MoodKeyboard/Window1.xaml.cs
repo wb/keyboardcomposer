@@ -180,6 +180,10 @@ namespace MoodKeyboard
                 Feedback.Text = "Saved";
                 // TODO
                 Console.WriteLine("Saved file to " + saveFile1.FileName);
+                TextWriter tw = new StreamWriter(saveFile1.FileName);
+                tw.Write(keyToPng.score.LPSymbol());
+                tw.Flush();
+                tw.Close();
             }
         }       
     }
