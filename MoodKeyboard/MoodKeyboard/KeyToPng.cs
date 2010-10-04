@@ -88,6 +88,14 @@ namespace MoodKeyboard
         /* store slur toggle state */
         public static LPSlur slurState = LPSlur.slurNone;
 
+        /* current clef */
+        public static ClefType clef = ClefType.TREBLE;
+        public static Boolean clefPressed = false;
+
+        /* current time signature */
+        public static TimeSignatureSpecific timeSignature = new TimeSignatureSpecific(new TimePair(4, 4));
+        public static Boolean timeSignaturePressed = false;
+
         public LPScore()
         {
             score = new List<LPSlice>();
@@ -126,9 +134,9 @@ namespace MoodKeyboard
                 + "}\r\n"
                 + "% Specify the first instrument (in theory we can have multiple?)\r\n"
                 + "InstrumentOne = {\r\n"
-                + "\\clef \"treble\"\r\n"
+                + "\\clef \"" + LPScore.clefToLilypond(LPScore.clef) + "\"\r\n"
                 + "\\key c \\major\r\n"
-                + "\\time 4/4\r\n";
+                + "\\time " + LPScore.timeSignature.timePair.over + "/" + LPScore.timeSignature.timePair.under + "\r\n";
 
             for (int i = 0; i < score.Count; i++ )
             {
@@ -157,12 +165,62 @@ namespace MoodKeyboard
 
         }
 
+        public static String clefToLilypond(ClefType clef)
+        {
+            switch (clef)
+            {
+                case ClefType.ALTO:
+                    return "alto";
+                case ClefType.BASS:
+                    return "bass";
+                case ClefType.PERCUSSION:
+                    return "percussion";
+                case ClefType.TABLATURE:
+                    return "tab";
+                default:
+                    return "treble";
+            }
+        }
+
         public bool addEventData(LWKeyEvent eventData)
         {
             bool updateImage = false;
 
             int beforePosition = position;
 
+            if (eventData.keyType == LWKeyType.CLEF_SPECIFIC)
+            {
+                /* update to new clef */
+                LPScore.clef = ((ClefSpecific)eventData.key).clef;
+
+                Console.WriteLine("Clef changed to " + LPScore.clefToLilypond(LPScore.clef));
+            }
+
+            if (eventData.keyType == LWKeyType.TIME_SIGNATURE_SPECIFIC)
+            {
+                TimeSignatureSpecific copy = (TimeSignatureSpecific) eventData.key;
+
+                LPScore.timeSignature.timePair.over = copy.timePair.over;
+                LPScore.timeSignature.timePair.under = copy.timePair.under;
+            }
+
+            if (eventData.keyType == LWKeyType.CLEF_SPECIFIC || eventData.keyType == LWKeyType.CLEF)
+            {
+                LPScore.clefPressed = true;
+            }
+            else
+            {
+                LPScore.clefPressed = false;
+            }
+
+            if (eventData.keyType == LWKeyType.TIME_SIGNATURE_SPECIFIC || eventData.keyType == LWKeyType.TIME_SIGNATURE)
+            {
+                LPScore.timeSignaturePressed = true;
+            }
+            else
+            {
+                LPScore.timeSignaturePressed = false;
+            }
 
             /**
              * Process the control keys (arrows + space) 
@@ -528,31 +586,46 @@ namespace MoodKeyboard
         {
             LWKeyMap map = new LWKeyMap();
 
-            /* add duration! */
-            if ((this.notes != null && this.notes.Count > 0) || this.rest != null)
-            {
-                LWKey key = new InverseDuration(LPScore.defaultDuration);
-                LWKeyType type = LWKeyType.INVERSE_DURATION;
-                map.Add(key, type);
-            }
 
-            /* if there are notes, add them all! */
-            if (this.notes != null && notes.Count > 0)
+            if (LPScore.timeSignaturePressed == true)
             {
-                /* get number of dots */
-                int dots = notes.ElementAt(0).dots;
-                if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
-                foreach (LPNote n in this.notes)
-                {
-                    map.Add(new Note(n.value, n.octave), LWKeyType.NOTE);
-                }
+                map.Add(new TimeSignature(), LWKeyType.TIME_SIGNATURE);
+                TimeSignatureSpecific copy = new TimeSignatureSpecific(new TimePair(LPScore.timeSignature.timePair.over, LPScore.timeSignature.timePair.under));
+                map.Add(copy, LWKeyType.TIME_SIGNATURE_SPECIFIC);
             }
-            /* or add a rest yo */
-            else if (this.rest != null)
+            else if (LPScore.clefPressed == true)
             {
-                int dots = rest.dots;
-                if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
-                map.Add(new Rest(), LWKeyType.REST);
+                map.Add(new ClefSpecific(LPScore.clef), LWKeyType.CLEF_SPECIFIC);
+                map.Add(new Clef(), LWKeyType.CLEF);
+            }
+            else
+            {
+                /* add duration! */
+                if ((this.notes != null && this.notes.Count > 0) || this.rest != null)
+                {
+                    LWKey key = new InverseDuration(LPScore.defaultDuration);
+                    LWKeyType type = LWKeyType.INVERSE_DURATION;
+                    map.Add(key, type);
+                }
+
+                /* if there are notes, add them all! */
+                if (this.notes != null && notes.Count > 0)
+                {
+                    /* get number of dots */
+                    int dots = notes.ElementAt(0).dots;
+                    if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
+                    foreach (LPNote n in this.notes)
+                    {
+                        map.Add(new Note(n.value, n.octave), LWKeyType.NOTE);
+                    }
+                }
+                /* or add a rest yo */
+                else if (this.rest != null)
+                {
+                    int dots = rest.dots;
+                    if (dots > 0) { map.Add(new Dots(dots), LWKeyType.DOTS); }
+                    map.Add(new Rest(), LWKeyType.REST);
+                }
             }
 
             /* add a dynamic */
@@ -569,6 +642,10 @@ namespace MoodKeyboard
             {
                 map.Add(new Slur(), LWKeyType.SLUR);
             }
+
+            /* always add clef */
+            //map.Add(new ClefSpecific(LPScore.clef), LWKeyType.CLEF_SPECIFIC);
+
 
             if (map.Count == 0)
             {

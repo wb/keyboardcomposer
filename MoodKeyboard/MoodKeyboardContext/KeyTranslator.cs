@@ -182,6 +182,18 @@ namespace MoodKeyboardContext
             }
         }
 
+        public AdaptiveKey KeyFromClefType(ClefType ct)
+        {
+            foreach (KeyValuePair<AdaptiveKey, ClefSpecific> kvp in clefs)
+            {
+                if (kvp.Value.clef == ct)
+                {
+                    return kvp.Key;
+                }
+            }
+            return AdaptiveKey.None;
+        }
+
         public int DotsFromKey(AdaptiveKey key)
         {
             if (dots.ContainsKey(key))
