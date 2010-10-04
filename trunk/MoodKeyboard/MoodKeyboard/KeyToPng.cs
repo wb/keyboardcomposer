@@ -60,7 +60,7 @@ namespace MoodKeyboard
         {
             if (score.isEmpty())
             {
-                return "C:/Users/Laura/Documents/Visual Studio/Projects/MoodKeyboard/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
+                return "C:/Users/Laura/Documents/Visual Studio 2008/Projects/MoodKeyboard/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
                 //return "C:/Users/Walter/Documents/KeyboardComposer/MoodKeyboard/MoodKeyboardContext/Images/blankScore.png";
             }
             else
@@ -80,7 +80,7 @@ namespace MoodKeyboard
         private int position = 0;
 
         /* store defaults */
-        public static int defaultDuration = 1;
+        public static int defaultDuration = 4;
 
         /* store (de)crescendo toggle state */
         public static LPCrescendo crescendoState = LPCrescendo.none;
@@ -96,39 +96,39 @@ namespace MoodKeyboard
 
         public string LPSymbol()
         {
-            String scoreAsString = "% Specify the paper size\n"
-                + "\\paper {\n"
-                + "#(define dump-extents #t)\n"
-                + "indent = 0\\mm\n"
-                + "line-width = 160\\mm\n"
-                + "force-assignment = #\"\"\n"
-                + "line-width = #(- line-width (* mm  3.000000))\n"
-                + "}\n"
-                + "% Version info\n"
-                + "\\version \"2.12.3\"\n"
-                + "% Header information\n"
-                + "\\header {\n"
-                + "title=\"Title\"\n"
-                + "composer=\"Composer\"\n"
-                + "}\n"
-                + "% Layout information (not sure what this does)\n"
-                + "\\layout {\n"
-                + "\\context { \\Score\n"
-                + "}\n"
-                + "}\n"
-                + "% Not entirely sure how this works, but it seems to tie notes over bar lines correctly\n"
-                + "\\layout {\n"
-                + "\\context {\n"
-                + "\\Voice\n"
-                + "\\remove \"Note_heads_engraver\"\n"
-                + "\\consists \"Completion_heads_engraver\"\n"
-                + "}\n"
-                + "}\n"
-                + "% Specify the first instrument (in theory we can have multiple?)\n"
-                + "InstrumentOne = {\n"
-                + "\\clef \"treble\"\n"
-                + "\\key c \\major\n"
-                + "\\time 4/4\n";
+            String scoreAsString = "% Specify the paper size\r\n"
+                + "\\paper {\r\n"
+                + "#(define dump-extents #t)\r\n"
+                + "indent = 0\\mm\r\n"
+                + "line-width = 160\\mm\r\n"
+                + "force-assignment = #\"\"\r\n"
+                + "line-width = #(- line-width (* mm  3.000000))\r\n"
+                + "}\r\n"
+                + "% Version info\r\n"
+                + "\\version \"2.12.3\"\r\n"
+                + "% Header information\r\n"
+                + "\\header {\r\n"
+                + "title=\"Title\"\r\n"
+                + "composer=\"Composer\"\r\n"
+                + "}\r\n"
+                + "% Layout information (not sure what this does)\r\n"
+                + "\\layout {\r\n"
+                + "\\context { \\Score\r\n"
+                + "}\r\n"
+                + "}\r\n"
+                + "% Not entirely sure how this works, but it seems to tie notes over bar lines correctly\r\n"
+                + "\\layout {\r\n"
+                + "\\context {\r\n"
+                + "\\Voice\r\n"
+                + "\\remove \"Note_heads_engraver\"\r\n"
+                + "\\consists \"Completion_heads_engraver\"\r\n"
+                + "}\r\n"
+                + "}\r\n"
+                + "% Specify the first instrument (in theory we can have multiple?)\r\n"
+                + "InstrumentOne = {\r\n"
+                + "\\clef \"treble\"\r\n"
+                + "\\key c \\major\r\n"
+                + "\\time 4/4\r\n";
 
             for (int i = 0; i < score.Count; i++ )
             {
