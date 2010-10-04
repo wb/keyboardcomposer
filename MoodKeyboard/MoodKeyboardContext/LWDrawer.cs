@@ -376,12 +376,12 @@ namespace MoodKeyboardContext
                     case KeyTranslator.SLUR_KEY:
                         SetKeyContentAndColor(key, "", GetColorForKey(key.Key), "Images/slur.png", false);
                         break;
-                    case KeyTranslator.CRESCENDO_KEY:
-                        SetKeyContentAndColor(key, "", GetColorForKey(key.Key), "Images/crescendo.png", false);
-                        break;
-                    case KeyTranslator.DECRESCENDO_KEY:
-                        SetKeyContentAndColor(key, "", GetColorForKey(key.Key), "Images/decrescendo.png", false);
-                        break;
+                    //case KeyTranslator.CRESCENDO_KEY:
+                    //    SetKeyContentAndColor(key, "", GetColorForKey(key.Key), "Images/crescendo.png", false);
+                    //    break;
+                    //case KeyTranslator.DECRESCENDO_KEY:
+                    //    SetKeyContentAndColor(key, "", GetColorForKey(key.Key), "Images/decrescendo.png", false);
+                    //    break;
                     case AdaptiveKey.Space:
                         SetKeyContentAndColor(key, "Next", normal, "", false);
                         break;
@@ -600,14 +600,14 @@ namespace MoodKeyboardContext
                         eventKey = new Slur();
                         type = LWKeyType.SLUR;
                         break;
-                    case KeyTranslator.CRESCENDO_KEY:
-                        eventKey = new Crescendo();
-                        type = LWKeyType.CRESCENDO;
-                        break;
-                    case KeyTranslator.DECRESCENDO_KEY:
-                        eventKey = new Decrescendo();
-                        type = LWKeyType.DECRESCENDO;
-                        break;
+                    //case KeyTranslator.CRESCENDO_KEY:
+                    //    eventKey = new Crescendo();
+                    //    type = LWKeyType.CRESCENDO;
+                    //    break;
+                    //case KeyTranslator.DECRESCENDO_KEY:
+                    //    eventKey = new Decrescendo();
+                    //    type = LWKeyType.DECRESCENDO;
+                    //    break;
                     case AdaptiveKey.Left:
                         eventKey = new ArrowLeft();
                         type = LWKeyType.ARROW_LEFT;
