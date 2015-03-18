@@ -1,0 +1,1 @@
+A notation editor taking advantage of an adaptive keyboard.
